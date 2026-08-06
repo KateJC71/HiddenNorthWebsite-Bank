@@ -1,5 +1,6 @@
-<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hidden North">
-  <circle cx="32" cy="12.5" r="3.1" fill="#A5303A"/>
-  <path d="M6 50 L23 22 L34 39 L41.5 27.5 L58 50 Z" fill="none" stroke="#141312" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round"/>
-  <path d="M6 50 H58" stroke="#141312" stroke-width="2.1" stroke-linecap="round"/>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hidden North">
+  <path d="M256 46 L292 96 L256 146 L220 96 Z" fill="#9E2B34"/>
+  <rect x="84" y="120" width="70" height="344" fill="#273B74"/>
+  <rect x="358" y="120" width="70" height="344" fill="#273B74"/>
+  <path d="M256 156 L358 300 L300 462 L256 300 L212 462 L154 300 Z" fill="#273B74"/>
 </svg>
