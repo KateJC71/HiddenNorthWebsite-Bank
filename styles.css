@@ -1,0 +1,405 @@
+/* =========================================================
+   Hidden North — 会社紹介サイト
+   Design tokens are fixed per the handoff spec.
+   Palette (4 values only):
+     墨黑  #141312   雪白 #FBFAF8
+     七竈紅(晝) #A5303A   七竈紅(夜) #C4444F
+   ========================================================= */
+
+:root {
+  --ink: #141312;
+  --snow: #FBFAF8;
+  --rowan-day: #A5303A;
+  --rowan-night: #C4444F;
+  --rowan-deep: #8A2731;
+
+  --hairline: rgba(20, 19, 18, .16);
+  --hairline-row: rgba(20, 19, 18, .14);
+  --hairline-top: rgba(20, 19, 18, .3);
+  --text-secondary: rgba(20, 19, 18, .8);
+  --text-body: rgba(20, 19, 18, .88);
+  --label: rgba(20, 19, 18, .55);
+  --address: rgba(20, 19, 18, .62);
+  --on-dark: rgba(251, 250, 248, .78);
+
+  --serif-ja: 'Noto Serif JP', serif;
+  --serif-tc: 'Noto Serif TC', serif;
+  --sans-ja: 'Noto Sans JP', sans-serif;
+  --sans-tc: 'Noto Sans TC', sans-serif;
+  --fraunces: 'Fraunces', serif;
+  --dm: 'DM Sans', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--snow);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: var(--ink); text-decoration: none; }
+a:hover { color: var(--rowan-day); }
+::selection { background: rgba(165, 48, 58, .16); }
+
+img { display: block; }
+
+/* ---- Language visibility toggle ---- */
+html[data-lang="ja"] .lang-zh,
+html[data-lang="zh"] .lang-ja { display: none; }
+
+/* Serif/sans helpers bound to active language */
+html[data-lang="ja"] .serif { font-family: var(--serif-ja); }
+html[data-lang="zh"] .serif { font-family: var(--serif-tc); }
+html[data-lang="ja"] .sans  { font-family: var(--sans-ja); }
+html[data-lang="zh"] .sans  { font-family: var(--sans-tc); }
+
+/* =========================================================
+   Eyebrow / section headings shared
+   ========================================================= */
+.eyebrow {
+  font-family: var(--fraunces);
+  font-weight: 500;
+  font-size: 12.5px;
+  letter-spacing: .42em;
+  color: var(--rowan-day);
+}
+.section-h2 {
+  margin: 16px 0 0;
+  font-weight: 600;
+  font-size: clamp(25px, 3vw, 33px);
+  letter-spacing: .14em;
+}
+
+/* =========================================================
+   0. Hero + nav
+   ========================================================= */
+.hero {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  overflow: hidden;
+}
+/* Full-bleed background layer, forced monochrome per spec.
+   Swap `--hero-image` for a real B&W Hokkaido photo when supplied. */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  filter: grayscale(1) contrast(1.04) brightness(.9);
+  background:
+    radial-gradient(120% 90% at 50% 8%, #2b2a28 0%, #1b1a18 46%, #121110 100%),
+    linear-gradient(180deg, #17161400 0%, #131211 100%);
+}
+.hero__bg::before {
+  /* layered ridge silhouettes — intentional art, not a placeholder */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(180deg, transparent 55%, rgba(9,9,8,.55) 100%),
+    url("assets/hero-ridge.svg");
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: cover;
+  opacity: .9;
+}
+.hero__bg[data-photo="true"] {
+  background-image: var(--hero-image);
+  background-size: cover;
+  background-position: center;
+}
+.hero__bg[data-photo="true"]::before { display: none; }
+
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(20, 19, 18, .62) 0%,
+    rgba(20, 19, 18, .24) 42%,
+    rgba(20, 19, 18, .58) 100%);
+  pointer-events: none;
+}
+
+.nav {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 24px clamp(22px, 4vw, 54px);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--snow);
+}
+.brand:hover { color: var(--snow); opacity: .85; }
+.brand img { height: 34px; }
+.brand__word { display: flex; align-items: baseline; gap: 11px; }
+.brand__latin {
+  font-family: var(--fraunces);
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: .22em;
+}
+.brand__cjk {
+  font-family: var(--serif-tc), var(--serif-ja);
+  font-size: 14px;
+  letter-spacing: .3em;
+}
+
+.nav__right {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.6vw, 34px);
+  flex-wrap: wrap;
+}
+.nav__links {
+  display: flex;
+  gap: clamp(16px, 2.6vw, 34px);
+  font-size: 13.5px;
+  letter-spacing: .14em;
+}
+.nav__links a { color: var(--snow); }
+.nav__links a:hover { color: var(--snow); opacity: .72; }
+
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgba(251, 250, 248, .4);
+  border-radius: 999px;
+  padding: 4px 5px;
+}
+.lang-toggle button {
+  font-family: var(--dm), var(--sans-ja), var(--sans-tc);
+  font-size: 12.5px;
+  letter-spacing: .06em;
+  cursor: pointer;
+  border: none;
+  border-radius: 999px;
+  padding: 5px 13px;
+  transition: all .25s;
+  background: transparent;
+  color: rgba(251, 250, 248, .8);
+}
+.lang-toggle button[aria-pressed="true"] {
+  background: rgba(251, 250, 248, .94);
+  color: var(--ink);
+}
+
+.hero__title {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 130px 24px 90px;
+  color: var(--snow);
+}
+.hero__title h1 {
+  margin: 0;
+  font-weight: 500;
+  font-size: clamp(30px, 4.6vw, 54px);
+  letter-spacing: .14em;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+/* =========================================================
+   Generic section wrappers
+   ========================================================= */
+.section { background: var(--snow); }
+.wrap-880 { max-width: 880px; margin: 0 auto; }
+.wrap-720 { max-width: 720px; margin: 0 auto; text-align: center; }
+
+/* 1. 理念 */
+.philosophy { padding: clamp(110px, 14vw, 180px) 28px; }
+.philosophy .lead {
+  margin: 0;
+  font-weight: 500;
+  font-size: clamp(19px, 2.3vw, 25px);
+  line-height: 2.3;
+  letter-spacing: .07em;
+  text-wrap: pretty;
+}
+.philosophy .rule {
+  width: 28px; height: 2px;
+  background: var(--rowan-day);
+  margin: 56px auto;
+}
+.philosophy .body {
+  margin: 0;
+  font-size: clamp(15.5px, 1.5vw, 17.5px);
+  line-height: 2.4;
+  letter-spacing: .05em;
+  color: var(--text-body);
+  text-wrap: pretty;
+}
+.philosophy .body--emph {
+  margin: 46px 0 0;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* 2. 事業内容 */
+.business { padding: 0 28px clamp(90px, 11vw, 140px); }
+.biz-list {
+  margin-top: 60px;
+  border-top: 1px solid var(--hairline);
+}
+.biz-item {
+  display: grid;
+  grid-template-columns: clamp(52px, 8vw, 92px) 1fr;
+  gap: 14px;
+  padding: 38px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.biz-item__num {
+  font-family: var(--fraunces);
+  font-size: 19px;
+  color: var(--rowan-day);
+  line-height: 1.6;
+}
+.biz-item h3 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 19px;
+  letter-spacing: .06em;
+  line-height: 1.7;
+}
+.biz-item p {
+  margin: 14px 0 0;
+  font-size: 15px;
+  line-height: 1.95;
+  letter-spacing: .02em;
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+
+/* 3. 会社概要 */
+.company { padding: 0 28px clamp(100px, 12vw, 150px); }
+.facts {
+  margin-top: 56px;
+  border-top: 1px solid var(--hairline-top);
+}
+.facts__row {
+  display: grid;
+  grid-template-columns: minmax(110px, 190px) 1fr;
+  gap: 18px;
+  padding: 22px 4px;
+  border-bottom: 1px solid var(--hairline-row);
+}
+.facts__label {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  color: var(--label);
+  padding-top: 2px;
+}
+.facts__value {
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+/* 4. 代表挨拶 */
+.greeting { padding: 0 28px clamp(110px, 13vw, 170px); }
+.greeting .msg {
+  margin: 54px 0 0;
+  font-size: clamp(17px, 1.9vw, 21px);
+  line-height: 2.4;
+  letter-spacing: .06em;
+  text-wrap: pretty;
+}
+.greeting .sign {
+  margin: 44px 0 0;
+  font-size: 14px;
+  letter-spacing: .14em;
+  color: rgba(20, 19, 18, .7);
+}
+
+/* 5. 聯絡 */
+.contact { padding: 0 28px clamp(120px, 14vw, 180px); }
+.contact .desc {
+  margin: 36px 0 0;
+  font-size: 15px;
+  line-height: 2;
+  letter-spacing: .04em;
+  color: var(--text-secondary);
+}
+.contact__cta { margin-top: 44px; }
+.contact__cta a {
+  font-family: var(--fraunces);
+  font-weight: 500;
+  font-size: clamp(21px, 2.8vw, 28px);
+  letter-spacing: .04em;
+  color: var(--rowan-day);
+  border-bottom: 1px solid rgba(165, 48, 58, .45);
+  padding-bottom: 7px;
+}
+.contact__cta a:hover {
+  color: var(--rowan-deep);
+  border-bottom-color: var(--rowan-deep);
+}
+.contact__addr {
+  margin: 40px 0 0;
+  font-family: var(--sans-ja), var(--sans-tc);
+  font-size: 14px;
+  letter-spacing: .1em;
+  color: var(--address);
+}
+
+/* 6. Footer */
+.footer {
+  background: var(--ink);
+  color: var(--on-dark);
+  padding: 76px 28px 58px;
+}
+.footer__inner {
+  max-width: 880px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  text-align: center;
+}
+.footer__brand { display: flex; align-items: center; gap: 14px; }
+.footer__brand img { height: 38px; }
+.footer__word {
+  display: flex;
+  align-items: baseline;
+  gap: 11px;
+  color: var(--snow);
+}
+.footer__word .brand__latin { font-size: 17px; }
+.footer__word .brand__cjk { font-size: 13.5px; }
+.footer__lines {
+  font-family: var(--sans-ja);
+  font-size: 13.5px;
+  letter-spacing: .06em;
+  line-height: 2.1;
+}
+.footer__lines a { color: var(--on-dark); }
+.footer__lines a:hover { color: var(--rowan-night); }
+.footer__copy {
+  font-family: var(--dm);
+  font-size: 12px;
+  letter-spacing: .16em;
+  color: rgba(251, 250, 248, .48);
+}
+
+/* Reduced-motion respect */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .lang-toggle button { transition: none; }
+}

@@ -1,0 +1,5 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hidden North">
+  <circle cx="32" cy="12.5" r="3.1" fill="#FBFAF8"/>
+  <path d="M6 50 L23 22 L34 39 L41.5 27.5 L58 50 Z" fill="none" stroke="#FBFAF8" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M6 50 H58" stroke="#FBFAF8" stroke-width="2.1" stroke-linecap="round"/>
+</svg>
