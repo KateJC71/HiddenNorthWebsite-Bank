@@ -49,12 +49,8 @@ python3 -m http.server 8000
 
 ## ⚠️ 上線前檢查清單（銀行審查用）
 
-1. **Hero 照片** — 目前使用 CSS 繪製的黑白山稜背景（非占位圖）。若業主提供滿版黑白風景照（美瑛丘陵／旭岳等），
-   放入 `assets/`，並在 `styles.css` 的 `:root` 或 `.hero__bg` 設定：
-   ```css
-   .hero__bg { background-image: var(--hero-image); background-size: cover; background-position: center; }
-   ```
-   或直接在 `index.html` 給 `.hero__bg` 加上 `data-photo="true"` 並設 `--hero-image: url("assets/你的照片.jpg")`。
+1. **Hero 照片** — 已放入業主提供的冬霧雪原照 `assets/hero.jpg`（2560×1440），由 CSS 自動轉黑白並套漸層遮罩。
+   要更換時，直接以同名 `assets/hero.jpg` 覆蓋即可（建議 16:9、≤600KB）。
 2. `info@hidden-north.jp` 已啟用可收發；網站掛在 `hidden-north.jp` 同一網域。
 3. 会社概要與登記簿謄本（履歴事項全部証明書）內容完全一致（全形字元照抄）。
 4. 日文由母語者過一輪敬語與商務表現。
@@ -62,5 +58,5 @@ python3 -m http.server 8000
 
 ## Logo 說明
 
-`assets/symbol-*.svg` 為依品牌規格（山稜＋北極星、七竈紅）製作的臨時標誌，
-若已有正式 Logo，直接以同名檔覆蓋即可（白版／彩色版／深色版）。
+`assets/symbol-*.svg` 為業主提供的正式品牌標誌向量檔（白版／彩色版／深色版），
+色彩為官方深藍 `#223A70` 與七竈紅 `#A5303A`。
