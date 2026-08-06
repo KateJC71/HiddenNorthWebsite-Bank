@@ -1,6 +1,1 @@
-<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hidden North">
-  <path d="M256 58 L296 108 L256 158 L216 108 Z" fill="#FBFAF8"/>
-  <rect x="86" y="124" width="66" height="336" fill="#FBFAF8"/>
-  <rect x="360" y="124" width="66" height="336" fill="#FBFAF8"/>
-  <path d="M256 168 L360 292 L318 460 L256 312 L194 460 L152 292 Z" fill="#FBFAF8"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="512" height="512"><path fill="#FFFFFF" d="M10,14 H20 V58 H10 Z M44,14 H54 V58 H44 Z"></path><path fill="#FFFFFF" d="M20,31 L32,23 L44,31 L44,40 L32,32 L20,40 Z"></path><path fill="#FFFFFF" d="M32,7 L35.2,12 L32,17 L28.8,12 Z"></path></svg>
