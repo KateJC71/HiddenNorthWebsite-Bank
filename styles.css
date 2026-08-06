@@ -338,10 +338,10 @@ html[data-lang="zh"] .sans  { font-family: var(--sans-tc); }
 }
 .contact__cta { margin-top: 44px; }
 .contact__cta a {
-  font-family: var(--fraunces);
+  font-family: var(--dm), var(--sans-ja), sans-serif;
   font-weight: 500;
   font-size: clamp(21px, 2.8vw, 28px);
-  letter-spacing: .04em;
+  letter-spacing: .01em;
   color: var(--rowan-day);
   border-bottom: 1px solid rgba(165, 48, 58, .45);
   padding-bottom: 7px;

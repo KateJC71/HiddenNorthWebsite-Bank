@@ -1,6 +1,6 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hidden North">
-  <path d="M256 46 L292 96 L256 146 L220 96 Z" fill="#273B74"/>
-  <rect x="84" y="120" width="70" height="344" fill="#273B74"/>
-  <rect x="358" y="120" width="70" height="344" fill="#273B74"/>
-  <path d="M256 156 L358 300 L300 462 L256 300 L212 462 L154 300 Z" fill="#273B74"/>
+  <path d="M256 58 L296 108 L256 158 L216 108 Z" fill="#273B74"/>
+  <rect x="86" y="124" width="66" height="336" fill="#273B74"/>
+  <rect x="360" y="124" width="66" height="336" fill="#273B74"/>
+  <path d="M256 168 L360 292 L318 460 L256 312 L194 460 L152 292 Z" fill="#273B74"/>
 </svg>
