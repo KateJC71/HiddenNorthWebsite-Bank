@@ -264,6 +264,13 @@ html[data-lang="zh"] .sans  { font-family: var(--sans-tc); }
   color: var(--text-secondary);
   text-wrap: pretty;
 }
+.biz-note {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 13px;
+  letter-spacing: .06em;
+  color: var(--label);
+}
 
 /* 3. 会社概要 */
 .company { padding: 0 28px clamp(100px, 12vw, 150px); }
