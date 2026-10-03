@@ -1,62 +1,66 @@
-# Hidden North 株式会社 — 公司介紹網站
+# Hidden North — 官方網站
 
-Hidden North株式会社（北海道旭川）的單頁公司介紹網站，供銀行開戶／融資審查時查閱。
-定位「安靜的可信」：資訊清楚、層級分明、無促銷感。**不含商品、價格、預訂功能。**
+Hidden North 株式会社（北海道旭川）的官方網站。多頁式、三語（日本語預設／繁體中文／English）、純靜態（無後端、無建置步驟），部署於 Vercel。
 
-- 網域：`hidden-north.jp`（信箱 `info@hidden-north.jp` 同網域）
-- 雙語：日本語（預設）｜繁體中文，右上角切換（`localStorage` 記憶）
-- 單頁滾動：Hero → 理念 → 事業內容 → 会社概要 → 代表挨拶 → 聯絡 → Footer
+---
 
-## 技術
-
-純靜態網站，**無建置步驟、無後端、無表單**。
+## 頁面結構
 
 | 檔案 | 說明 |
 |---|---|
-| `index.html` | 單頁，日／中文案皆內嵌，`.lang-ja` / `.lang-zh` 控制顯示 |
-| `styles.css` | 全部設計 token（顏色、字體、字級、間距）依交付規格 |
-| `app.js` | 語言切換（唯一狀態 `lang: 'ja' | 'zh'`，預設 `ja`） |
-| `assets/` | Logo SVG × 3、Hero 背景圖 |
-| `vercel.json` | Vercel 靜態部署設定 |
+| `index.html` | 首頁（Hero、理念、兩種旅行方式、精選行程、理由、CTA） |
+| `about.html` | 會社情報（事業內容、会社概要、代表挨拶、聯絡）— 銀行審查用內容 |
+| `tours.html` | 募集行程列表（可依一日／二日篩選） |
+| `tour.html?id=<id>` | 行程詳情 + 預約元件（日期、人數、即時小計） |
+| `custom.html` | 客製化行程洽詢（表單，demo 送出） |
+| `checkout.html` | 結帳流程（確認 → 聯絡資料 → 付款）|
+| `confirmation.html` | 預約完成 |
+| `admin.html` | **行程後台**（維護行程／價格／圖片，密碼保護） |
+
+**共用程式**：`site.js`（三語 i18n 引擎 + 注入式頁首／頁尾 + 捲動浮現 + `window.HN` 工具）、`catalog.js`（行程卡片與列表）、`tour.js`、`custom.js`、`checkout.js`、`confirm.js`、`admin.js`。
+**內容資料**：`data/tours.json`（行程）、`data/i18n.json`（介面文字三語）。
 
 ## 本機預覽
 
 ```bash
-python3 -m http.server 8000
-# 開啟 http://localhost:8000
+python3 -m http.server 8130    # 然後開 http://localhost:8130
 ```
 
-## 部署到 Vercel
+---
 
-1. 將此 repo 推上 GitHub（已完成）。
-2. 到 [vercel.com](https://vercel.com) 用 GitHub 登入 → **Add New → Project → Import** 本 repo。
-3. Framework Preset 選 **Other**，Build Command 留空，Output Directory 留空（根目錄即輸出）。
-4. Deploy。之後綁定自訂網域 `hidden-north.jp`。
+## 維護方式（給非工程人員）
 
-## 設計規格（摘要）
+### A. 用後台維護行程（推薦）
+1. 開 `網址/admin.html`，輸入密碼（預設 `hidden-north`，可在 `admin.js` 最上方 `PASS` 修改）。
+2. 新增／編輯／刪除行程，切換 繁中／日本語／EN 分別填寫。
+3. 按 **「匯出 tours.json」** 下載檔案 → 覆蓋專案中的 `data/tours.json` → push 到 GitHub（Vercel 會自動重新部署）。
+4. 進階欄位（相簿、亮點、逐時行程、費用含／不含）在後台下方的 JSON 區塊編輯。
 
-**色彩（全品牌四值）**
-| 角色 | HEX |
-|---|---|
-| 墨黑 | `#141312` |
-| 雪白 | `#FBFAF8` |
-| 七竈紅（晝） | `#A5303A` |
-| 七竈紅（夜） | `#C4444F` |
+> 編輯中的內容會暫存在該瀏覽器；按「重新載入」會捨棄草稿、重抓線上檔案。
 
-紅色只出現在三處：眉標＋編號＋重點線、Email CTA、Logo。照片上一律全白 Logo。
+### B. 直接改檔案
+- 行程內容：`data/tours.json`
+- 介面文字（選單、按鈕、表單標籤等）：`data/i18n.json`
+- 首頁／會社情報的長段落文案：直接在對應 HTML 的 `.lang-ja` / `.lang-zh` / `.lang-en` 區塊
 
-**字體（Google Fonts）**：Noto Serif/Sans JP・TC、Fraunces、DM Sans。
+### 圖片
+行程圖片放 `assets/tours/`，於 `tours.json` 的 `image` / `gallery` 指定路徑。建議 3:2、每張 ≤300KB。目前 `t1–t6.jpg` 為以官網照片裁切的**暫用示意圖**，請替換為實際行程照片。
 
-## ⚠️ 上線前檢查清單（銀行審查用）
+---
 
-1. **Hero 照片** — 已放入業主提供的冬霧雪原照 `assets/hero.jpg`（2560×1440），由 CSS 自動轉黑白並套漸層遮罩。
-   要更換時，直接以同名 `assets/hero.jpg` 覆蓋即可（建議 16:9、≤600KB）。
-2. `info@hidden-north.jp` 已啟用可收發；網站掛在 `hidden-north.jp` 同一網域。
-3. 会社概要與登記簿謄本（履歴事項全部証明書）內容完全一致（全形字元照抄）。
-4. 日文由母語者過一輪敬語與商務表現。
-5. 取得旅行業登錄後，於「事業內容」與「会社概要」補上登錄號。
+## ⚠️ 上線前必做（依賴下週取得的旅行業登録號）
 
-## Logo 說明
+1. **行程與價格**：目前為**範例**，請以後台替換為真實方案、價格、日期、照片。頁面上的「範例／登録中」提示文字在 `data/i18n.json` 的 `notice.*`。
+2. **付款金流（Square）**：目前為**可測試的 demo**，不會實際扣款。接上 Square 的步驟見 `checkout.js` 檔尾的說明：
+   - 載入 Square Web Payments SDK；
+   - 以 `payments.card()` 取代 demo 卡號欄位；
+   - 實作 `SquarePaymentAdapter.charge()`，呼叫**你的伺服器端**（serverless function）建立付款；
+   - 將 `checkout.js` 中 `var Payment = DemoPaymentAdapter;` 改為 `SquarePaymentAdapter`。
+   - 需要 Square 的 Application ID / Location ID 與一個後端端點（Vercel Functions 可）。
+3. **取得登録號後**：於 `about.html` 事業內容與会社概要補上登録番號，並移除／調整 `notice.registration`、`notice.demo`、`notice.sample`。
+4. **表單送信**：客製化洽詢與結帳目前不送到任何後端。上線前請接上 email/API（`custom.js` 與 `checkout.js` 內有標註位置）。
+5. **後台安全**：`admin.html` 的密碼為前端簡易保護，非真正的安全機制。正式上線建議改用 Vercel 的 Password Protection 或驗證代理保護此頁。
 
-`assets/symbol-*.svg` 為業主提供的正式品牌標誌向量檔（白版／彩色版／深色版），
-色彩為官方深藍 `#223A70` 與七竈紅 `#A5303A`。
+## 部署
+
+Vercel（Framework：Other，無 Build 指令，輸出為根目錄）。推到 `main` 後自動部署。`vercel.json` 已設定 `cleanUrls` 與 `assets` 快取。
