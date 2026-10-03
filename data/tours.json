@@ -1,0 +1,226 @@
+{
+  "_comment": "SAMPLE placeholder content — maintain via admin.html or edit here. Replace copy, prices, dates and images before go-live.",
+  "currency": "JPY",
+  "tours": [
+    {
+      "id": "kamui-chinese-ski",
+      "type": "1day",
+      "status": "published",
+      "order": 1,
+      "price": 14800,
+      "image": "assets/tours/t1.jpg",
+      "gallery": ["assets/tours/t1.jpg", "assets/tours/t4.jpg", "assets/tours/t6.jpg"],
+      "area": { "ja": "旭川・神居", "zh": "旭川・神居", "en": "Asahikawa · Kamui" },
+      "duration": { "ja": "約7時間", "zh": "約 7 小時", "en": "About 7 hours" },
+      "capacity": { "min": 1, "max": 6 },
+      "title": {
+        "ja": "神居スキー 中国語プライベート・レッスン",
+        "zh": "神居滑雪 中文私人課程",
+        "en": "Kamui Ski — Private Lesson in Chinese"
+      },
+      "summary": {
+        "ja": "市街地から車で30分。中国語で学べる、はじめての北海道スキー。",
+        "zh": "離市區車程 30 分鐘，用中文學會你的第一次北海道滑雪。",
+        "en": "Thirty minutes from town. Your first Hokkaido ski day, taught in Chinese."
+      },
+      "highlights": [
+        { "ja": "中国語対応の認定インストラクター", "zh": "中文對應的認證教練", "en": "Certified instructor, in Chinese" },
+        { "ja": "レンタル一式・リフト券込み", "zh": "含雪具全套與纜車券", "en": "Full rental and lift pass included" },
+        { "ja": "少人数・家族向け", "zh": "小班制・適合親子", "en": "Small groups, family friendly" }
+      ],
+      "itinerary": [
+        { "time": "08:30", "title": { "ja": "ホテルお迎え", "zh": "飯店接送", "en": "Hotel pickup" }, "desc": { "ja": "旭川市内の主要ホテルまでお迎えにあがります。", "zh": "至旭川市區主要飯店接您。", "en": "Pickup from major hotels in central Asahikawa." } },
+        { "time": "09:15", "title": { "ja": "神居スキー場・装備合わせ", "zh": "神居雪場・裝備確認", "en": "Kamui resort, gear fitting" }, "desc": { "ja": "ブーツとスキーのサイズを合わせ、安全説明を行います。", "zh": "調整雪鞋與雪板尺寸，進行安全說明。", "en": "Fit boots and skis, safety briefing." } },
+        { "time": "10:00", "title": { "ja": "午前レッスン", "zh": "上午課程", "en": "Morning lesson" }, "desc": { "ja": "基本姿勢からリフトの乗り方まで、ゆっくり進めます。", "zh": "從基本姿勢到搭纜車，循序漸進。", "en": "From stance to riding the lift, at an easy pace." } },
+        { "time": "12:30", "title": { "ja": "昼食（山の食堂）", "zh": "午餐（山上食堂）", "en": "Lunch at the lodge" }, "desc": { "ja": "ゲレンデ食堂で温かい一皿を。", "zh": "在雪場食堂享用溫熱餐點。", "en": "A warm plate at the slope-side canteen." } },
+        { "time": "13:30", "title": { "ja": "午後レッスン・自由滑走", "zh": "下午課程・自由滑行", "en": "Afternoon practice" }, "desc": { "ja": "緩斜面で練習を重ね、最後は自分で一本。", "zh": "在緩坡反覆練習，最後自己滑一趟。", "en": "Practice on gentle runs, then your own first descent." } },
+        { "time": "15:30", "title": { "ja": "ホテルへお送り", "zh": "送回飯店", "en": "Return to hotel" }, "desc": { "ja": "市内のホテルまでお送りします。", "zh": "送回市區飯店。", "en": "Drop-off at your hotel." } }
+      ],
+      "included": [
+        { "ja": "往復送迎（旭川市内）", "zh": "來回接送（旭川市區）", "en": "Round-trip transfer (central Asahikawa)" },
+        { "ja": "スキーレンタル一式・リフト券", "zh": "雪具全套・纜車券", "en": "Full ski rental and lift pass" },
+        { "ja": "中国語インストラクター", "zh": "中文教練", "en": "Chinese-speaking instructor" },
+        { "ja": "傷害保険", "zh": "傷害保險", "en": "Accident insurance" }
+      ],
+      "excluded": [
+        { "ja": "昼食代", "zh": "午餐費用", "en": "Lunch" },
+        { "ja": "ウェア上下（別途レンタル可）", "zh": "雪衣褲（可另行租借）", "en": "Ski wear (rental available)" }
+      ]
+    },
+    {
+      "id": "asahiyama-zoo-day",
+      "type": "1day",
+      "status": "published",
+      "order": 2,
+      "price": 12800,
+      "image": "assets/tours/t2.jpg",
+      "gallery": ["assets/tours/t2.jpg", "assets/tours/t5.jpg"],
+      "area": { "ja": "旭川", "zh": "旭川", "en": "Asahikawa" },
+      "duration": { "ja": "約6時間", "zh": "約 6 小時", "en": "About 6 hours" },
+      "capacity": { "min": 1, "max": 8 },
+      "title": {
+        "ja": "旭山動物園と旭川のまち歩き",
+        "zh": "旭山動物園與旭川漫步",
+        "en": "Asahiyama Zoo & Asahikawa Walk"
+      },
+      "summary": {
+        "ja": "ペンギンの散歩と、地元の人が通う一杯の醤油ラーメン。",
+        "zh": "企鵝散步，加上一碗在地人才知道的醬油拉麵。",
+        "en": "The penguin walk, and a bowl of soy ramen the locals keep to themselves."
+      },
+      "highlights": [
+        { "ja": "冬季限定・ペンギンの散歩", "zh": "冬季限定・企鵝散步", "en": "Winter-only penguin walk" },
+        { "ja": "中国語ガイド同行", "zh": "中文導遊同行", "en": "Chinese-speaking guide" },
+        { "ja": "旭川ラーメンの昼食", "zh": "旭川拉麵午餐", "en": "Asahikawa ramen lunch" }
+      ],
+      "itinerary": [
+        { "time": "09:00", "title": { "ja": "ホテルお迎え", "zh": "飯店接送", "en": "Hotel pickup" }, "desc": { "ja": "旭川市内にてお迎え。", "zh": "旭川市區接送。", "en": "Pickup in central Asahikawa." } },
+        { "time": "09:40", "title": { "ja": "旭山動物園", "zh": "旭山動物園", "en": "Asahiyama Zoo" }, "desc": { "ja": "行動展示で知られる動物園をガイドと巡ります。", "zh": "由導遊帶您走訪以行為展示聞名的動物園。", "en": "Explore the zoo known for its behavioral exhibits." } },
+        { "time": "12:30", "title": { "ja": "旭川ラーメン", "zh": "旭川拉麵", "en": "Asahikawa ramen" }, "desc": { "ja": "醤油ベースの旭川ラーメンを昼食に。", "zh": "午餐享用醬油系旭川拉麵。", "en": "Soy-based Asahikawa ramen for lunch." } },
+        { "time": "14:00", "title": { "ja": "平和通買物公園", "zh": "平和通購物公園", "en": "Heiwa-dori shopping street" }, "desc": { "ja": "日本最初の歩行者天国でまち歩き。", "zh": "在日本第一條行人徒步區漫步。", "en": "A stroll along Japan's first pedestrian mall." } },
+        { "time": "15:00", "title": { "ja": "ホテルへお送り", "zh": "送回飯店", "en": "Return to hotel" }, "desc": { "ja": "市内のホテルへお送りします。", "zh": "送回市區飯店。", "en": "Drop-off at your hotel." } }
+      ],
+      "included": [
+        { "ja": "往復送迎（旭川市内）", "zh": "來回接送（旭川市區）", "en": "Round-trip transfer (central Asahikawa)" },
+        { "ja": "動物園入園料", "zh": "動物園門票", "en": "Zoo admission" },
+        { "ja": "中国語ガイド", "zh": "中文導遊", "en": "Chinese-speaking guide" }
+      ],
+      "excluded": [
+        { "ja": "昼食代", "zh": "午餐費用", "en": "Lunch" }
+      ]
+    },
+    {
+      "id": "biei-blue-pond",
+      "type": "1day",
+      "status": "published",
+      "order": 3,
+      "price": 15800,
+      "image": "assets/tours/t3.jpg",
+      "gallery": ["assets/tours/t3.jpg", "assets/tours/t6.jpg"],
+      "area": { "ja": "美瑛", "zh": "美瑛", "en": "Biei" },
+      "duration": { "ja": "約7時間", "zh": "約 7 小時", "en": "About 7 hours" },
+      "capacity": { "min": 2, "max": 6 },
+      "title": {
+        "ja": "美瑛 青い池と冬の丘",
+        "zh": "美瑛 青池與冬之丘",
+        "en": "Biei — The Blue Pond & Winter Hills"
+      },
+      "summary": {
+        "ja": "雪に沈む丘と、ライトアップされた青い池。静かな一日。",
+        "zh": "沒入雪中的丘陵，與點燈後的青池。安靜的一天。",
+        "en": "Snow-sunk hills and the illuminated blue pond. A quiet day."
+      },
+      "highlights": [
+        { "ja": "冬季ライトアップの青い池", "zh": "冬季點燈的青池", "en": "The winter-lit Blue Pond" },
+        { "ja": "白ひげの滝", "zh": "白鬚瀑布", "en": "Shirahige Falls" },
+        { "ja": "少人数・写真に向く行程", "zh": "小班制・適合攝影", "en": "Small group, made for photographs" }
+      ],
+      "itinerary": [
+        { "time": "09:30", "title": { "ja": "ホテルお迎え", "zh": "飯店接送", "en": "Hotel pickup" }, "desc": { "ja": "旭川または美瑛のホテルでお迎え。", "zh": "於旭川或美瑛飯店接送。", "en": "Pickup in Asahikawa or Biei." } },
+        { "time": "10:30", "title": { "ja": "冬の丘陵ドライブ", "zh": "冬之丘陵兜風", "en": "Winter hills drive" }, "desc": { "ja": "雪に覆われたパッチワークの丘を巡ります。", "zh": "巡遊被雪覆蓋的拼布之丘。", "en": "Drive the snow-covered patchwork hills." } },
+        { "time": "12:00", "title": { "ja": "昼食（美瑛の食堂）", "zh": "午餐（美瑛食堂）", "en": "Lunch in Biei" }, "desc": { "ja": "地元食材のランチを。", "zh": "享用在地食材午餐。", "en": "A lunch of local produce." } },
+        { "time": "13:30", "title": { "ja": "白ひげの滝・青い池", "zh": "白鬚瀑布・青池", "en": "Shirahige Falls & Blue Pond" }, "desc": { "ja": "青く澄んだ水の景観をゆっくりと。", "zh": "細細欣賞澄澈的藍。", "en": "Take in the clear blue water at an easy pace." } },
+        { "time": "16:30", "title": { "ja": "ホテルへお送り", "zh": "送回飯店", "en": "Return to hotel" }, "desc": { "ja": "ライトアップ希望の場合は時間調整可。", "zh": "如需看點燈可調整時間。", "en": "Timing adjustable for the evening illumination." } }
+      ],
+      "included": [
+        { "ja": "貸切車・ドライバー", "zh": "包車・司機", "en": "Private car and driver" },
+        { "ja": "中国語ガイド", "zh": "中文導遊", "en": "Chinese-speaking guide" },
+        { "ja": "傷害保険", "zh": "傷害保險", "en": "Accident insurance" }
+      ],
+      "excluded": [
+        { "ja": "昼食代", "zh": "午餐費用", "en": "Lunch" }
+      ]
+    },
+    {
+      "id": "furano-ski-stay",
+      "type": "2day",
+      "status": "published",
+      "order": 4,
+      "price": 58000,
+      "image": "assets/tours/t4.jpg",
+      "gallery": ["assets/tours/t4.jpg", "assets/tours/t1.jpg", "assets/tours/t5.jpg"],
+      "area": { "ja": "富良野", "zh": "富良野", "en": "Furano" },
+      "duration": { "ja": "2日1泊", "zh": "2 天 1 夜", "en": "2 days, 1 night" },
+      "capacity": { "min": 2, "max": 6 },
+      "title": {
+        "ja": "富良野スキー滞在 2日1泊",
+        "zh": "富良野滑雪住宿 2 天 1 夜",
+        "en": "Furano Ski Stay — 2 Days"
+      },
+      "summary": {
+        "ja": "乗り捨てレンタルで旭川から富良野へ。雪質の違いを二日で。",
+        "zh": "以乘捨租借從旭川到富良野，兩天感受雪質的差別。",
+        "en": "From Asahikawa to Furano with one-way rental. Two days, two kinds of snow."
+      },
+      "highlights": [
+        { "ja": "富良野の良質なパウダー", "zh": "富良野的優質粉雪", "en": "Furano's fine powder" },
+        { "ja": "Snow Force 乗り捨てレンタル", "zh": "Snow Force 乘捨租借", "en": "Snow Force one-way rental" },
+        { "ja": "温泉宿泊（1泊）", "zh": "溫泉住宿（1 晚）", "en": "One night at an onsen inn" }
+      ],
+      "itinerary": [
+        { "time": "DAY 1 · 08:30", "title": { "ja": "旭川出発", "zh": "旭川出發", "en": "Depart Asahikawa" }, "desc": { "ja": "装備を受け取り、富良野へ移動。", "zh": "領取裝備，前往富良野。", "en": "Collect gear and transfer to Furano." } },
+        { "time": "DAY 1 · 10:00", "title": { "ja": "富良野スキー場", "zh": "富良野雪場", "en": "Furano Ski Resort" }, "desc": { "ja": "終日スキー。レベルに応じてガイドが同行。", "zh": "整日滑雪，依程度安排導滑。", "en": "A full day on snow, guided to your level." } },
+        { "time": "DAY 1 · 17:00", "title": { "ja": "温泉宿へチェックイン", "zh": "入住溫泉旅宿", "en": "Check in at the inn" }, "desc": { "ja": "温泉と夕食でゆっくりと。", "zh": "溫泉與晚餐，好好休息。", "en": "Onsen and dinner at leisure." } },
+        { "time": "DAY 2 · 09:00", "title": { "ja": "午前スキー", "zh": "上午滑雪", "en": "Morning ski" }, "desc": { "ja": "空いた時間帯に再びゲレンデへ。", "zh": "趁人少時段再次上山。", "en": "Back to the slopes while it is quiet." } },
+        { "time": "DAY 2 · 13:00", "title": { "ja": "富良野のまち・昼食", "zh": "富良野市街・午餐", "en": "Furano town & lunch" }, "desc": { "ja": "地元のカフェや店を少し。", "zh": "逛逛在地咖啡與小店。", "en": "A little time among local cafés and shops." } },
+        { "time": "DAY 2 · 16:00", "title": { "ja": "旭川へお送り", "zh": "送回旭川", "en": "Return to Asahikawa" }, "desc": { "ja": "旭川市内または旭川空港へ。", "zh": "送回旭川市區或旭川機場。", "en": "To central Asahikawa or Asahikawa Airport." } }
+      ],
+      "included": [
+        { "ja": "送迎（旭川〜富良野）", "zh": "接送（旭川〜富良野）", "en": "Transfers (Asahikawa–Furano)" },
+        { "ja": "スキーレンタル・リフト券（2日）", "zh": "雪具租借・纜車券（2 日）", "en": "Ski rental and lift pass (2 days)" },
+        { "ja": "温泉宿泊 1泊・夕朝食", "zh": "溫泉住宿 1 晚・晚早餐", "en": "1 night onsen stay with dinner & breakfast" },
+        { "ja": "中国語ガイド", "zh": "中文導遊", "en": "Chinese-speaking guide" },
+        { "ja": "傷害保険", "zh": "傷害保險", "en": "Accident insurance" }
+      ],
+      "excluded": [
+        { "ja": "2日目の昼食代", "zh": "第 2 天午餐費用", "en": "Day-2 lunch" },
+        { "ja": "ウェアレンタル（希望者）", "zh": "雪衣褲租借（如需要）", "en": "Ski-wear rental (optional)" }
+      ]
+    },
+    {
+      "id": "grand-doboku-2day",
+      "type": "2day",
+      "status": "published",
+      "order": 5,
+      "price": 64000,
+      "image": "assets/tours/t5.jpg",
+      "gallery": ["assets/tours/t5.jpg", "assets/tours/t3.jpg", "assets/tours/t2.jpg"],
+      "area": { "ja": "旭川・美瑛・富良野", "zh": "旭川・美瑛・富良野", "en": "Asahikawa · Biei · Furano" },
+      "duration": { "ja": "2日1泊", "zh": "2 天 1 夜", "en": "2 days, 1 night" },
+      "capacity": { "min": 2, "max": 6 },
+      "title": {
+        "ja": "道北周遊 旭川・美瑛・富良野 2日1泊",
+        "zh": "道北周遊 旭川・美瑛・富良野 2 天 1 夜",
+        "en": "Northern Hokkaido — Asahikawa, Biei & Furano in 2 Days"
+      },
+      "summary": {
+        "ja": "動物園、冬の丘、雪原の夜。北の奥を二日でていねいに。",
+        "zh": "動物園、冬之丘、雪原的夜。用兩天細細走進北方深處。",
+        "en": "The zoo, the winter hills, a night on the snow plain. The deep north, unhurried."
+      },
+      "highlights": [
+        { "ja": "旭山動物園と美瑛の丘", "zh": "旭山動物園與美瑛之丘", "en": "Asahiyama Zoo and the Biei hills" },
+        { "ja": "貸切車でゆったり移動", "zh": "包車悠閒移動", "en": "A private car throughout" },
+        { "ja": "中国語ガイドが二日間同行", "zh": "中文導遊全程兩日同行", "en": "A Chinese-speaking guide for both days" }
+      ],
+      "itinerary": [
+        { "time": "DAY 1 · 09:00", "title": { "ja": "旭川出発・旭山動物園", "zh": "旭川出發・旭山動物園", "en": "Depart · Asahiyama Zoo" }, "desc": { "ja": "午前は動物園をじっくり。", "zh": "上午細逛動物園。", "en": "A thorough morning at the zoo." } },
+        { "time": "DAY 1 · 13:00", "title": { "ja": "美瑛の丘へ", "zh": "前往美瑛之丘", "en": "To the Biei hills" }, "desc": { "ja": "昼食のあと、冬の丘陵を巡ります。", "zh": "午餐後巡遊冬之丘陵。", "en": "After lunch, the winter hills." } },
+        { "time": "DAY 1 · 17:30", "title": { "ja": "宿泊・温泉", "zh": "住宿・溫泉", "en": "Stay & onsen" }, "desc": { "ja": "美瑛・富良野エリアの宿へ。", "zh": "入住美瑛・富良野地區旅宿。", "en": "An inn in the Biei–Furano area." } },
+        { "time": "DAY 2 · 09:30", "title": { "ja": "青い池・白ひげの滝", "zh": "青池・白鬚瀑布", "en": "Blue Pond & Shirahige Falls" }, "desc": { "ja": "朝の澄んだ光の中で。", "zh": "在清晨澄澈的光線中。", "en": "In the clear light of morning." } },
+        { "time": "DAY 2 · 13:00", "title": { "ja": "富良野のまち・昼食", "zh": "富良野市街・午餐", "en": "Furano town & lunch" }, "desc": { "ja": "地元の味をゆっくりと。", "zh": "細品在地味道。", "en": "Local flavors, unhurried." } },
+        { "time": "DAY 2 · 16:00", "title": { "ja": "旭川へお送り", "zh": "送回旭川", "en": "Return to Asahikawa" }, "desc": { "ja": "旭川市内または旭川空港へ。", "zh": "送回旭川市區或旭川機場。", "en": "To central Asahikawa or the airport." } }
+      ],
+      "included": [
+        { "ja": "貸切車・ドライバー（2日）", "zh": "包車・司機（2 日）", "en": "Private car and driver (2 days)" },
+        { "ja": "宿泊 1泊・夕朝食", "zh": "住宿 1 晚・晚早餐", "en": "1 night stay with dinner & breakfast" },
+        { "ja": "旭山動物園入園料", "zh": "旭山動物園門票", "en": "Asahiyama Zoo admission" },
+        { "ja": "中国語ガイド", "zh": "中文導遊", "en": "Chinese-speaking guide" },
+        { "ja": "傷害保険", "zh": "傷害保險", "en": "Accident insurance" }
+      ],
+      "excluded": [
+        { "ja": "昼食代（2日分）", "zh": "午餐費用（兩日）", "en": "Lunch (both days)" }
+      ]
+    }
+  ]
+}

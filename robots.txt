@@ -1,2 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /checkout.html
+Disallow: /confirmation.html
+Disallow: /admin.html
+
+Sitemap: https://hidden-north.jp/sitemap.xml

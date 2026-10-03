@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja" data-lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>お申し込み｜Hidden North</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#141312">
+  <link rel="icon" href="assets/symbol-color.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=DM+Sans:wght@400;500&family=Noto+Serif+JP:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+TC:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="tours">
+  <div id="site-header"></div>
+
+  <main class="site-main">
+    <section class="page-hero" style="padding-bottom:clamp(24px,4vw,40px)">
+      <div class="page-hero__inner">
+        <div class="eyebrow">CHECKOUT</div>
+        <h1 class="serif" style="font-size:clamp(26px,3.4vw,40px)" data-i18n="checkout.title">お申し込み</h1>
+      </div>
+    </section>
+
+    <section class="section" style="padding-bottom:clamp(64px,9vw,120px)">
+      <div class="wrap">
+
+        <div id="co-empty" class="panel-success" hidden style="text-align:left">
+          <p class="section-lead" data-i18n="checkout.empty" style="margin:0 0 20px">お申し込み内容がありません。ツアーをお選びください。</p>
+          <a class="btn btn--primary" href="tours.html" data-i18n="cta.viewTours">ツアーを見る</a>
+        </div>
+
+        <div id="co-main" class="co-grid" hidden>
+          <div>
+            <div class="co-steps" aria-label="Steps">
+              <span class="s is-active" data-si="1"><span class="n">1</span><span data-i18n="checkout.step1">内容の確認</span></span>
+              <span class="sep"></span>
+              <span class="s" data-si="2"><span class="n">2</span><span data-i18n="checkout.step2">お客様情報</span></span>
+              <span class="sep"></span>
+              <span class="s" data-si="3"><span class="n">3</span><span data-i18n="checkout.step3">お支払い</span></span>
+            </div>
+
+            <!-- Step 1: review -->
+            <section data-step="1">
+              <div id="co-review"></div>
+              <div class="co-actions">
+                <button class="btn btn--primary" id="to-2" data-i18n="checkout.continue">次へ</button>
+              </div>
+            </section>
+
+            <!-- Step 2: customer -->
+            <section data-step="2" hidden>
+              <h2 class="serif" style="font-weight:600;font-size:22px;letter-spacing:.06em;margin:0 0 22px" data-i18n="checkout.customerInfo">ご連絡先</h2>
+              <form id="cust-form" class="form-grid" novalidate>
+                <div class="field-row">
+                  <div class="field"><label for="c-name"><span data-i18n="form.name">お名前</span> <span class="req" data-i18n="form.required">必須</span></label><input class="input" type="text" id="c-name" autocomplete="name" required><p class="err-msg" data-err-for="c-name"></p></div>
+                  <div class="field"><label for="c-email"><span data-i18n="form.email">メールアドレス</span> <span class="req" data-i18n="form.required">必須</span></label><input class="input" type="email" id="c-email" autocomplete="email" required><p class="err-msg" data-err-for="c-email"></p></div>
+                </div>
+                <div class="field-row">
+                  <div class="field"><label for="c-phone" data-i18n="checkout.phone">電話番号</label><input class="input" type="tel" id="c-phone" autocomplete="tel"></div>
+                  <div class="field"><label for="c-country" data-i18n="checkout.country">国・地域</label>
+                    <select class="select" id="c-country"><option>台湾 / Taiwan</option><option>香港 / Hong Kong</option><option>シンガポール / Singapore</option><option>日本 / Japan</option><option>その他 / Other</option></select>
+                  </div>
+                </div>
+                <div class="field"><label for="c-note" data-i18n="checkout.note">備考（任意）</label><textarea class="textarea" id="c-note"></textarea></div>
+                <label class="chip" style="display:inline-flex"><input type="checkbox" id="c-agree"><span data-i18n="checkout.agree">キャンセルポリシーに同意します。</span></label>
+                <p class="err-msg" data-err-for="c-agree"></p>
+                <div class="co-actions">
+                  <button type="button" class="btn btn--outline" id="back-1" data-i18n="checkout.back">戻る</button>
+                  <button type="submit" class="btn btn--primary" id="to-3" data-i18n="checkout.toPayment">お支払いへ進む</button>
+                </div>
+              </form>
+            </section>
+
+            <!-- Step 3: payment -->
+            <section data-step="3" hidden>
+              <h2 class="serif" style="font-weight:600;font-size:22px;letter-spacing:.06em;margin:0 0 10px" data-i18n="checkout.payment">お支払い</h2>
+              <p class="notice" style="margin-bottom:20px" data-i18n="notice.demo">これはテスト用のお支払い画面です。実際の決済は行われません。</p>
+              <div class="pay-card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                  <span class="field-label" style="margin:0" data-i18n="checkout.payment">お支払い</span>
+                  <span class="card-icons"><span>VISA</span><span>MC</span><span>JCB</span><span>AMEX</span></span>
+                </div>
+                <form id="pay-form" class="form-grid" novalidate>
+                  <div class="field"><label for="p-name" data-i18n="checkout.cardName">カード名義</label><input class="input" type="text" id="p-name" autocomplete="cc-name"><p class="err-msg" data-err-for="p-name"></p></div>
+                  <div class="field"><label for="p-num" data-i18n="checkout.cardNumber">カード番号</label><input class="input" type="text" id="p-num" inputmode="numeric" autocomplete="cc-number" placeholder="4242 4242 4242 4242" maxlength="23"><p class="err-msg" data-err-for="p-num"></p></div>
+                  <div class="field-row">
+                    <div class="field"><label for="p-exp" data-i18n="checkout.expiry">有効期限</label><input class="input" type="text" id="p-exp" inputmode="numeric" placeholder="MM / YY" maxlength="7" autocomplete="cc-exp"><p class="err-msg" data-err-for="p-exp"></p></div>
+                    <div class="field"><label for="p-cvc" data-i18n="checkout.cvc">セキュリティコード</label><input class="input" type="text" id="p-cvc" inputmode="numeric" placeholder="123" maxlength="4" autocomplete="cc-csc"><p class="err-msg" data-err-for="p-cvc"></p></div>
+                  </div>
+                  <div class="co-actions">
+                    <button type="button" class="btn btn--outline" id="back-2" data-i18n="checkout.back">戻る</button>
+                    <button type="submit" class="btn btn--accent" id="pay-btn"><span data-i18n="checkout.pay">支払う</span>&nbsp;<span id="pay-amt"></span></button>
+                  </div>
+                </form>
+              </div>
+            </section>
+          </div>
+
+          <aside>
+            <div class="summary-box" id="summary"></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="site.js"></script>
+  <script src="checkout.js"></script>
+</body>
+</html>
