@@ -103,7 +103,7 @@
     return (
       '<header class="site-header' + (over ? ' site-header--over' : '') + '">' +
         '<a href="index.html" class="brand" aria-label="Hidden North">' +
-          '<img class="logo-dark" src="assets/symbol-kon.svg" alt="" width="30" height="30">' +
+          '<img class="logo-dark" src="assets/symbol-color.svg" alt="" width="30" height="30">' +
           '<img class="logo-light" src="assets/symbol-white.svg" alt="" width="30" height="30">' +
           '<span class="brand__word"><span class="brand__latin">HIDDEN NORTH</span><span class="brand__cjk">北隱</span></span>' +
         '</a>' +
