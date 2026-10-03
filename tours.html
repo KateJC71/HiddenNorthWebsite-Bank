@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja" data-lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ツアー｜Hidden North</title>
+  <meta name="description" content="旭川を起点に、道北の冬へ。少人数の1日・1泊2日ツアー。Hidden North。">
+  <meta name="theme-color" content="#141312">
+  <link rel="icon" href="assets/symbol-color.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=DM+Sans:wght@400;500&family=Noto+Serif+JP:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+TC:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="tours">
+  <div id="site-header"></div>
+
+  <main class="site-main">
+    <section class="page-hero">
+      <div class="page-hero__inner">
+        <div class="eyebrow" data-i18n="tours.eyebrow">TOURS</div>
+        <h1 class="serif" data-i18n="tours.title">募集ツアー</h1>
+        <p class="lead" data-i18n="tours.intro">日程の決まった少人数の旅。旭川を起点に、道北の冬へ。</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-bottom:clamp(64px,9vw,120px)">
+      <div class="wrap">
+        <div class="tour-filters" role="group" aria-label="Filter">
+          <button type="button" data-filter="all" aria-pressed="true" data-i18n="tours.filterAll">すべて</button>
+          <button type="button" data-filter="1day" aria-pressed="false" data-i18n="tours.filter1">1日ツアー</button>
+          <button type="button" data-filter="2day" aria-pressed="false" data-i18n="tours.filter2">1泊2日</button>
+        </div>
+        <div id="tour-grid" class="tour-grid" aria-live="polite"></div>
+        <p class="notice notice--inline" style="margin-top:34px" data-i18n="notice.sample">※ 表示中の行程・料金・写真はサンプルです。正式販売時に差し替えます。</p>
+        <p class="notice" style="margin-top:14px" data-i18n="notice.registration">第2種旅行業の登録手続き中です。オンライン販売は登録完了後に開始いたします。</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="site.js"></script>
+  <script src="catalog.js"></script>
+</body>
+</html>
