@@ -90,6 +90,7 @@
       '</div>' +
       '<div class="field-row">' + num('價格 Price (JPY)', 'price', t.price) + num('排序 Order', 'order', t.order) + '</div>' +
       '<div class="field-row">' + num('最少人數 Min', 'capacity.min', t.capacity && t.capacity.min) + num('最多人數 Max', 'capacity.max', t.capacity && t.capacity.max) + '</div>' +
+      text('識別碼 ID（用於網址，需唯一、英數與連字號）', 'id', t.id) +
       text('主圖 Image path', 'image', t.image) +
       '<div class="field"><label>進階（相簿、亮點、行程、費用含/不含）— JSON</label>' +
         '<textarea class="textarea" id="adv-json" style="min-height:220px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px">' + esc(JSON.stringify(adv, null, 2)) + '</textarea>' +
@@ -107,9 +108,9 @@
     ed.querySelectorAll('[data-field]').forEach(function (inp) {
       inp.addEventListener('input', function () {
         var path = inp.getAttribute('data-field');
-        var val = inp.type === 'number' ? (inp.value === '' ? '' : Number(inp.value)) : inp.value;
+        var val = inp.type === 'number' ? (inp.value === '' ? 0 : Number(inp.value)) : inp.value;
         setPath(t, path, val);
-        if (path === 'type' || path === 'status') renderList();
+        if (path === 'type' || path === 'status' || path === 'id') renderList();
         saveDraft();
       });
     });
@@ -128,7 +129,10 @@
     advEl.addEventListener('input', function () {
       try {
         var o = JSON.parse(advEl.value);
-        ['gallery', 'highlights', 'itinerary', 'included', 'excluded'].forEach(function (k) { t[k] = o[k] || []; });
+        var keys = ['gallery', 'highlights', 'itinerary', 'included', 'excluded'];
+        var bad = keys.filter(function (k) { return (k in o) && !Array.isArray(o[k]); });
+        if (bad.length) throw new Error('這些欄位必須是陣列 []：' + bad.join('、'));
+        keys.forEach(function (k) { t[k] = Array.isArray(o[k]) ? o[k] : []; });
         $('adv-err').textContent = ''; advEl.classList.remove('is-error'); saveDraft();
       } catch (e) { $('adv-err').textContent = 'JSON 格式有誤：' + e.message; advEl.classList.add('is-error'); }
     });
@@ -137,7 +141,10 @@
       data.tours.splice(idx, 1); idx = Math.min(idx, data.tours.length - 1); renderList(); renderEditor(); saveDraft();
     });
     $('btn-dup').addEventListener('click', function () {
-      var copy = JSON.parse(JSON.stringify(t)); copy.id = (t.id || 'tour') + '-copy'; copy.status = 'draft';
+      var copy = JSON.parse(JSON.stringify(t));
+      var base = (t.id || 'tour') + '-copy', id = base, n = 2;
+      while (data.tours.some(function (x) { return x.id === id; })) { id = base + '-' + n; n++; }
+      copy.id = id; copy.status = 'draft';
       data.tours.splice(idx + 1, 0, copy); idx = idx + 1; renderList(); renderEditor(); saveDraft();
     });
   }

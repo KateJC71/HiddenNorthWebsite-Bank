@@ -89,7 +89,7 @@
 
   // ---- chrome (header + footer) templates ----
   var LS =
-    '<div class="langswitch" role="group" aria-label="Language">' +
+    '<div class="langswitch" role="group" aria-label="Language" data-i18n-aria="aria.lang">' +
       '<button type="button" data-lang-set="ja">日本語</button>' +
       '<button type="button" data-lang-set="zh">繁中</button>' +
       '<button type="button" data-lang-set="en">EN</button>' +
@@ -116,14 +116,14 @@
           '</div>' +
           LS +
           '<a href="tours.html" class="btn btn--outline btn-book" data-i18n="nav.book">空き状況・ご予約</a>' +
-          '<button class="menu-toggle" aria-label="Menu" aria-expanded="false" aria-controls="menu-panel">' +
+          '<button class="menu-toggle" aria-label="Menu" data-i18n-aria="aria.menu" aria-expanded="false" aria-controls="menu-panel">' +
             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18M3 12h18M3 18h18"/></svg>' +
           '</button>' +
         '</nav>' +
       '</header>' +
       '<div class="menu-backdrop" aria-hidden="true"></div>' +
       '<aside class="menu-panel" id="menu-panel" aria-label="Menu">' +
-        '<button class="menu-panel__close" aria-label="Close"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' +
+        '<button class="menu-panel__close" aria-label="Close" data-i18n-aria="aria.close"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' +
         '<a class="m-link" href="index.html" data-i18n="nav.home">ホーム</a>' +
         '<a class="m-link" href="tours.html" data-i18n="nav.tours">ツアー</a>' +
         '<a class="m-link" href="custom.html" data-i18n="nav.custom">オーダーメイド</a>' +
@@ -190,17 +190,21 @@
     var toggle = document.querySelector('.menu-toggle');
     var panel = document.querySelector('.menu-panel');
     var backdrop = document.querySelector('.menu-backdrop');
+    // closed by default: keep the off-screen panel out of the tab order
+    if (panel) { panel.setAttribute('aria-hidden', 'true'); try { panel.inert = true; } catch (e) {} }
     function close() {
-      if (panel) panel.classList.remove('is-open');
+      if (panel && !panel.classList.contains('is-open')) return;
+      if (panel) { panel.classList.remove('is-open'); panel.setAttribute('aria-hidden', 'true'); try { panel.inert = true; } catch (e) {} }
       if (backdrop) backdrop.classList.remove('is-open');
-      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+      if (toggle) { toggle.setAttribute('aria-expanded', 'false'); toggle.focus(); }
       document.body.style.overflow = '';
     }
     function open() {
-      if (panel) panel.classList.add('is-open');
+      if (panel) { panel.classList.add('is-open'); panel.removeAttribute('aria-hidden'); try { panel.inert = false; } catch (e) {} }
       if (backdrop) backdrop.classList.add('is-open');
       if (toggle) toggle.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
+      var cl = panel && panel.querySelector('.menu-panel__close'); if (cl) cl.focus();
     }
     if (toggle) toggle.addEventListener('click', function () {
       (panel && panel.classList.contains('is-open')) ? close() : open();

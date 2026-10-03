@@ -19,7 +19,7 @@
     root.innerHTML =
       '<div class="panel-success" style="padding-bottom:36px">' +
         '<div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></div>' +
-        '<h2 class="serif" data-i18n="confirm.title">' + HN.esc(HN.t('confirm.title')) + '</h2>' +
+        '<h1 class="serif" data-i18n="confirm.title">' + HN.esc(HN.t('confirm.title')) + '</h1>' +
         '<p data-i18n="confirm.body">' + HN.esc(HN.t('confirm.body')) + '</p>' +
       '</div>' +
       '<div class="summary-box" style="max-width:520px;margin:0 auto">' +
