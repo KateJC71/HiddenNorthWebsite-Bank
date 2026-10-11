@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja" data-lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>オーダーメイドの旅｜Hidden North</title>
+  <meta name="description" content="行き先も日数も、あなたの希望から。中国語・英語で相談できるオーダーメイドの北海道旅行。Hidden North。">
+  <meta name="theme-color" content="#141312">
+  <link rel="icon" href="assets/symbol-color.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=DM+Sans:wght@400;500&family=Noto+Serif+JP:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+TC:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="custom">
+  <div id="site-header"></div>
+
+  <main class="site-main">
+    <section class="page-hero page-hero--photo">
+      <div class="page-hero__bg" style="background-image:url('assets/tours/t3.jpg')"></div>
+      <div class="page-hero__inner">
+        <div class="eyebrow eyebrow--dark" data-i18n="custom.eyebrow">TAILOR-MADE</div>
+        <h1 class="serif" data-i18n="custom.title">オーダーメイドの旅</h1>
+        <p class="lead" data-i18n="custom.lead">行き先も、日数も、ペースも。あなたの「こんな旅」から組み立てます。</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding:clamp(48px,7vw,88px) var(--gutter) 0">
+      <div class="wrap-narrow">
+        <p class="serif body" style="font-size:clamp(16px,1.9vw,19px);line-height:2.1;text-wrap:pretty;margin:0" data-i18n="custom.body">スキーに一日、動物園に半日、あとは温泉で何もしない日。そんな旅も、中国語・英語でご相談いただけます。いただいた希望をもとに、行程と概算のお見積りをお送りします。</p>
+        <div class="steps">
+          <div class="step reveal"><div class="step__n">01</div><h3 class="serif" data-i18n="custom.step1">ご希望を送る</h3><p data-i18n="custom.step1Desc">下のフォームに、旅のイメージをお書きください。</p></div>
+          <div class="step reveal"><div class="step__n">02</div><h3 class="serif" data-i18n="custom.step2">提案とお見積り</h3><p data-i18n="custom.step2Desc">2営業日以内に、行程案と概算をお送りします。</p></div>
+          <div class="step reveal"><div class="step__n">03</div><h3 class="serif" data-i18n="custom.step3">確定・ご出発</h3><p data-i18n="custom.step3Desc">内容を調整し、確定。あとは現地でお迎えします。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section pad-y">
+      <div class="wrap-narrow">
+        <form id="custom-form" class="form-grid" novalidate>
+          <div class="field-row">
+            <div class="field">
+              <label for="f-name"><span data-i18n="form.name">お名前</span> <span class="req" data-i18n="form.required">必須</span></label>
+              <input class="input" type="text" id="f-name" name="name" autocomplete="name" required>
+              <p class="err-msg" data-err-for="f-name"></p>
+            </div>
+            <div class="field">
+              <label for="f-email"><span data-i18n="form.email">メールアドレス</span> <span class="req" data-i18n="form.required">必須</span></label>
+              <input class="input" type="email" id="f-email" name="email" autocomplete="email" required>
+              <p class="err-msg" data-err-for="f-email"></p>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="f-lang" data-i18n="form.lang">ご希望の言語</label>
+              <select class="select" id="f-lang" name="lang">
+                <option value="zh">中文</option>
+                <option value="ja">日本語</option>
+                <option value="en">English</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-party" data-i18n="form.party">人数</label>
+              <select class="select" id="f-party" name="party">
+                <option>1</option><option>2</option><option>3</option><option>4</option>
+                <option>5</option><option>6</option><option>7</option><option>8+</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="f-dates" data-i18n="form.dates">ご希望の時期</label>
+            <input class="input" type="text" id="f-dates" name="dates" data-i18n-ph="form.datesPh" placeholder="例：2027年1月中旬、3泊4日">
+          </div>
+
+          <div class="field">
+            <label data-i18n="form.interests">興味のあること</label>
+            <div class="chips">
+              <label class="chip"><input type="checkbox" name="interests" value="ski"><span data-i18n="form.interestSki">スキー・スノーボード</span></label>
+              <label class="chip"><input type="checkbox" name="interests" value="nature"><span data-i18n="form.interestNature">自然・景観</span></label>
+              <label class="chip"><input type="checkbox" name="interests" value="food"><span data-i18n="form.interestFood">食・グルメ</span></label>
+              <label class="chip"><input type="checkbox" name="interests" value="family"><span data-i18n="form.interestFamily">家族・子ども連れ</span></label>
+              <label class="chip"><input type="checkbox" name="interests" value="culture"><span data-i18n="form.interestCulture">文化・まち歩き</span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="f-budget" data-i18n="form.budget">ご予算（お一人さま・任意）</label>
+            <input class="input" type="text" id="f-budget" name="budget">
+          </div>
+
+          <div class="field">
+            <label for="f-msg" data-i18n="form.message">ご希望・ご質問</label>
+            <textarea class="textarea" id="f-msg" name="message" data-i18n-ph="form.messagePh" placeholder="どんな旅にしたいか、自由にお書きください。"></textarea>
+          </div>
+
+          <div>
+            <button type="submit" class="btn btn--primary" id="f-submit" data-i18n="form.submit">この内容で相談する</button>
+          </div>
+        </form>
+
+        <div id="custom-success" class="panel-success" hidden>
+          <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg></div>
+          <h2 class="serif" data-i18n="custom.successTitle">ありがとうございます。</h2>
+          <p data-i18n="custom.successBody">ご希望を受け付けました。担当者より2営業日以内にご連絡いたします。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="site.js"></script>
+  <script src="custom.js"></script>
+</body>
+</html>
