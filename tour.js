@@ -10,6 +10,27 @@
     return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
   }
   function fmtShort(iso) { var p = iso.split('-'); return p[0] + '/' + (+p[1]) + '/' + (+p[2]); }
+  var LOCALE = { ja: 'ja-JP', zh: 'zh-TW', en: 'en-US' };
+  function fmtLong(iso) {
+    try { return new Date(iso + 'T00:00:00').toLocaleDateString(LOCALE[HN.getLang()] || 'ja-JP', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' }); }
+    catch (e) { return iso; }
+  }
+  function weeklyText() {
+    var names = HN.t('common.weekdays').split(',');
+    var days = tour.weekdays.slice().sort().map(function (d) { return names[d] || d; });
+    return HN.t('detail.weekly').replace('{d}', days.join(HN.getLang() === 'en' ? ', ' : '・'));
+  }
+  // Weekly / fixed-date tours: a list of real departures. Daily tours: a free date picker.
+  function dateControl(bd) {
+    if (P.schedule(tour) === 'daily') {
+      return '<input type="date" id="bk-date" class="input" min="' + bd.min + '"' + (bd.max ? ' max="' + bd.max + '"' : '') + ' value="' + HN.esc(state.date) + '">';
+    }
+    var list = P.departures(tour, todayISO());
+    if (!list.length) return '<p class="notice" style="margin:0">' + HN.esc(HN.t('detail.noDates')) + '</p>';
+    return '<select id="bk-date" class="select"><option value="">' + HN.esc(HN.t('detail.selectDatePh')) + '</option>' +
+      list.map(function (d) { return '<option value="' + d + '"' + (d === state.date ? ' selected' : '') + '>' + HN.esc(fmtLong(d)) + '</option>'; }).join('') +
+      '</select>';
+  }
   function stepper(key, label, unit) {
     var k = HN.esc(key);
     return '<div class="pax-row"><div class="pax-row__label">' + HN.esc(label) +
@@ -79,6 +100,7 @@
             metaItem(HN.t('common.area'), HN.pick(tour.area)) +
             metaItem(HN.t('common.capacity'), cap) +
             (season ? metaItem(HN.t('detail.season'), season) : '') +
+            (P.schedule(tour) === 'weekly' ? metaItem(HN.t('detail.departs'), weeklyText()) : '') +
             metaItem(HN.t('common.languages'), '中文 · 日本語 · English') +
           '</div>' +
         '</div>' +
@@ -89,7 +111,7 @@
           '<div class="book-box" id="book-box">' +
             '<div class="book-box__price">' + HN.yen(tour.price) + ' <small>' + HN.esc(HN.t('common.perPerson')) + '</small></div>' +
             '<div class="field" style="margin-top:20px"><label for="bk-date">' + HN.esc(HN.t('detail.selectDate')) + '</label>' +
-              '<input type="date" id="bk-date" class="input" min="' + bd.min + '"' + (bd.max ? ' max="' + bd.max + '"' : '') + ' value="' + HN.esc(state.date) + '">' +
+              dateControl(bd) +
               '<p class="admin-note" style="margin-top:6px">' + HN.esc(HN.t('detail.leadNote')) + '</p></div>' +
             '<div class="field"><label>' + HN.esc(HN.t('detail.participants')) + '</label>' + steppers + '</div>' +
             '<div class="book-box__total"><span class="k">' + HN.esc(HN.t('detail.total')) + '</span><span class="v" id="bk-total">' + HN.yen(total) + '</span></div>' +
