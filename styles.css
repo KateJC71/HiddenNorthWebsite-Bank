@@ -795,3 +795,23 @@ html[data-lang="en"] .tcard__title { font-family: 'Fraunces', serif; }
   .tour-cta-bar .btn { min-height: 46px; padding: 12px 22px; }
   body.has-cta-bar { padding-bottom: 80px; }
 }
+
+/* ---------- booking: participant steppers, meeting point, confirmations ---------- */
+.timeline li { grid-template-columns: 112px 1fr; }
+@media (max-width: 520px) { .timeline li { grid-template-columns: 1fr; } }
+.pax-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.pax-row + .pax-row { margin-top: 10px; }
+.pax-row__label { font-family: var(--sans-ui); font-size: 14px; color: var(--ink); line-height: 1.4; }
+.pax-row__label small { display: block; font-size: 12px; color: var(--label); margin-top: 2px; }
+.pax-stepper { display: flex; align-items: center; border: 1px solid var(--hairline); border-radius: 2px; overflow: hidden; flex: 0 0 auto; }
+.pax-stepper button { width: 44px; min-height: 44px; border: 0; background: #fff; cursor: pointer; font-size: 18px; color: var(--ink); }
+.pax-stepper button:focus-visible { outline: 2px solid var(--rowan-day); outline-offset: -2px; }
+.pax-stepper span { min-width: 40px; text-align: center; font-family: var(--sans-ui); font-size: 15px; }
+.meet-box { border-left: 2px solid var(--rowan-day); padding: 4px 0 4px 18px; margin-bottom: 24px; }
+.meet-box .k { font-family: var(--sans-ui); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--label); }
+.meet-box p { font-family: var(--sans-ui); font-size: 15px; line-height: 1.8; margin: 6px 0 0; color: var(--ink); }
+.check-row { display: flex; gap: 12px; align-items: flex-start; font-family: var(--sans-ui); font-size: 14px; line-height: 1.7; color: var(--ink); cursor: pointer; }
+.check-row input { width: 18px; height: 18px; margin: 3px 0 0; flex: 0 0 auto; accent-color: var(--ink); }
+.check-row + .err-msg { margin-left: 30px; }
+.confirm-list { display: grid; gap: 6px; margin: 4px 0 8px; }
+#card-container { min-height: 90px; }

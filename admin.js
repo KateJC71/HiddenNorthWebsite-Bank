@@ -10,6 +10,14 @@
   var data = { currency: 'JPY', tours: [] };
   var idx = -1;
   var editLang = 'zh';
+  // Advanced JSON fields. Optional ones (omit to disable):
+  //   child { price, label{ja,zh,en} }  → adult/child pricing
+  //   season { from, to }               → bookable date range (YYYY-MM-DD)
+  //   meeting {ja,zh,en}                → meeting / drop-off point
+  //   hotelPickup true                  → checkout asks for the guest's hotel
+  //   notes [], confirmations []        → notes are shown; confirmations must be ticked at checkout
+  var ADV_ARRAYS = ['gallery', 'highlights', 'itinerary', 'included', 'excluded', 'notes', 'confirmations'];
+  var ADV_OPTIONAL = ['child', 'season', 'meeting', 'hotelPickup'];
 
   function $(id) { return document.getElementById(id); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -72,7 +80,9 @@
     var ed = $('editor');
     if (idx < 0 || !data.tours[idx]) { ed.innerHTML = '<p class="admin-note">請從左側選擇行程，或新增一筆。</p>'; return; }
     var t = data.tours[idx];
-    var adv = { gallery: t.gallery || [], highlights: t.highlights || [], itinerary: t.itinerary || [], included: t.included || [], excluded: t.excluded || [] };
+    var adv = {};
+    ADV_ARRAYS.forEach(function (k) { adv[k] = t[k] || []; });
+    ADV_OPTIONAL.forEach(function (k) { if (t[k] != null) adv[k] = t[k]; });
     ed.innerHTML =
       '<div class="lang-tabs" id="lang-tabs">' +
         ['zh', 'ja', 'en'].map(function (l) { return '<button data-l="' + l + '"' + (l === editLang ? ' class="is-active"' : '') + '>' + (l === 'zh' ? '繁中' : l === 'ja' ? '日本語' : 'EN') + '</button>'; }).join('') +
@@ -92,7 +102,7 @@
       '<div class="field-row">' + num('最少人數 Min', 'capacity.min', t.capacity && t.capacity.min) + num('最多人數 Max', 'capacity.max', t.capacity && t.capacity.max) + '</div>' +
       text('識別碼 ID（用於網址，需唯一、英數與連字號）', 'id', t.id) +
       text('主圖 Image path', 'image', t.image) +
-      '<div class="field"><label>進階（相簿、亮點、行程、費用含/不含）— JSON</label>' +
+      '<div class="field"><label>進階（相簿、亮點、行程、費用含/不含、注意事項、確認事項、兒童價 child、出團期間 season、集合地點 meeting、飯店接送 hotelPickup）— JSON</label>' +
         '<textarea class="textarea" id="adv-json" style="min-height:220px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px">' + esc(JSON.stringify(adv, null, 2)) + '</textarea>' +
         '<p class="err-msg" id="adv-err"></p></div>' +
       '<div style="display:flex;justify-content:space-between;gap:12px;margin-top:20px">' +
@@ -129,10 +139,12 @@
     advEl.addEventListener('input', function () {
       try {
         var o = JSON.parse(advEl.value);
-        var keys = ['gallery', 'highlights', 'itinerary', 'included', 'excluded'];
-        var bad = keys.filter(function (k) { return (k in o) && !Array.isArray(o[k]); });
+        var bad = ADV_ARRAYS.filter(function (k) { return (k in o) && !Array.isArray(o[k]); });
         if (bad.length) throw new Error('這些欄位必須是陣列 []：' + bad.join('、'));
-        keys.forEach(function (k) { t[k] = Array.isArray(o[k]) ? o[k] : []; });
+        if (o.child && !(Number(o.child.price) >= 0)) throw new Error('child.price 必須是數字');
+        if (o.season && (!/^\d{4}-\d{2}-\d{2}$/.test(o.season.from || '') || !/^\d{4}-\d{2}-\d{2}$/.test(o.season.to || ''))) throw new Error('season 需為 {"from":"YYYY-MM-DD","to":"YYYY-MM-DD"}');
+        ADV_ARRAYS.forEach(function (k) { t[k] = Array.isArray(o[k]) ? o[k] : []; });
+        ADV_OPTIONAL.forEach(function (k) { if (o[k] == null) delete t[k]; else t[k] = o[k]; });
         $('adv-err').textContent = ''; advEl.classList.remove('is-error'); saveDraft();
       } catch (e) { $('adv-err').textContent = 'JSON 格式有誤：' + e.message; advEl.classList.add('is-error'); }
     });

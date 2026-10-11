@@ -1,12 +1,23 @@
 /* Hidden North — tour detail page */
 (function () {
   'use strict';
-  var tour = null, state = { date: '', pax: 0, img: '' };
+  var P = window.HNPricing;
+  var tour = null, state = { date: '', adults: 0, children: 0, img: '' };
 
-  function minDate() {
-    var d = new Date(); d.setDate(d.getDate() + 3);
-    var p = function (n) { return ('0' + n).slice(-2); };
+  function todayISO() {
+    var d = new Date(), p = function (n) { return ('0' + n).slice(-2); };
     return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+  }
+  function fmtShort(iso) { var p = iso.split('-'); return p[0] + '/' + (+p[1]) + '/' + (+p[2]); }
+  function stepper(key, label, unit) {
+    var k = HN.esc(key);
+    return '<div class="pax-row"><div class="pax-row__label">' + HN.esc(label) +
+        (unit != null ? '<small>' + HN.yen(unit) + ' ' + HN.esc(HN.t('common.perPerson')) + '</small>' : '') + '</div>' +
+      '<div class="pax-stepper">' +
+        '<button type="button" data-step-key="' + k + '" data-step-dir="-1" aria-label="' + HN.esc(label + ' − ' + HN.t('aria.paxMinus')) + '">−</button>' +
+        '<span id="pax-' + k + '" aria-live="polite">' + state[key] + '</span>' +
+        '<button type="button" data-step-key="' + k + '" data-step-dir="1" aria-label="' + HN.esc(label + ' + ' + HN.t('aria.paxPlus')) + '">+</button>' +
+      '</div></div>';
   }
   function li(items, cls) {
     return items.map(function (it) { return '<li>' + HN.esc(HN.pick(it)) + '</li>'; }).join('');
@@ -18,7 +29,8 @@
   function render() {
     var root = document.getElementById('tour-root');
     if (!tour) { root.innerHTML = '<p class="section-lead">' + HN.esc(HN.t('detail.notFound')) + '</p>'; return; }
-    if (!state.pax) state.pax = tour.capacity.min || 1;
+    if (!state.adults) state.adults = P.capacity(tour).min;
+    var bd = P.bounds(tour, todayISO());
     if (!state.img) state.img = tour.image;
 
     var arr = function (x) { return Array.isArray(x) ? x : []; };
@@ -39,9 +51,17 @@
       (arr(tour.included).length ? '<div><h3>' + HN.esc(HN.t('detail.included')) + '</h3><ul class="yes">' + li(arr(tour.included)) + '</ul></div>' : '') +
       (arr(tour.excluded).length ? '<div><h3>' + HN.esc(HN.t('detail.excluded')) + '</h3><ul class="no">' + li(arr(tour.excluded)) + '</ul></div>' : '') +
       '</div></section>' : '';
+    var notes = (tour.meeting || arr(tour.notes).length) ? '<section class="detail-section"><h2 class="serif">' + HN.esc(HN.t('detail.notes')) + '</h2>' +
+      (tour.meeting ? '<div class="meet-box"><div class="k">' + HN.esc(HN.t('detail.meeting')) + '</div><p>' + HN.esc(HN.pick(tour.meeting)) + '</p></div>' : '') +
+      (arr(tour.notes).length ? '<ul class="hl-list">' + li(arr(tour.notes)) + '</ul>' : '') +
+      '</section>' : '';
 
-    var total = tour.price * state.pax;
-    var cap = (tour.capacity.min || 1) + '–' + (tour.capacity.max || 6) + ' ' + HN.t('common.people');
+    var total = P.quote(tour, state).total;
+    var cap = P.capacity(tour).min + '–' + P.capacity(tour).max + ' ' + HN.t('common.people');
+    var season = (tour.season && tour.season.from && tour.season.to) ? fmtShort(tour.season.from) + ' – ' + fmtShort(tour.season.to) : '';
+    var steppers = tour.child
+      ? stepper('adults', HN.t('detail.adults'), tour.price) + stepper('children', HN.pick(tour.child.label) || HN.t('detail.children'), tour.child.price)
+      : stepper('adults', HN.t('detail.participants'), null);
 
     var html =
       '<div class="detail-top">' +
@@ -57,23 +77,20 @@
             metaItem(HN.t('common.duration'), HN.pick(tour.duration)) +
             metaItem(HN.t('common.area'), HN.pick(tour.area)) +
             metaItem(HN.t('common.capacity'), cap) +
+            (season ? metaItem(HN.t('detail.season'), season) : '') +
             metaItem(HN.t('common.languages'), '中文 · 日本語 · English') +
           '</div>' +
         '</div>' +
       '</div>' +
       '<div class="detail-body">' +
-        '<div>' + hl + itin + inex + '</div>' +
+        '<div>' + hl + itin + inex + notes + '</div>' +
         '<aside>' +
           '<div class="book-box" id="book-box">' +
             '<div class="book-box__price">' + HN.yen(tour.price) + ' <small>' + HN.esc(HN.t('common.perPerson')) + '</small></div>' +
             '<div class="field" style="margin-top:20px"><label for="bk-date">' + HN.esc(HN.t('detail.selectDate')) + '</label>' +
-              '<input type="date" id="bk-date" class="input" min="' + minDate() + '" value="' + HN.esc(state.date) + '"></div>' +
-            '<div class="field"><label>' + HN.esc(HN.t('detail.participants')) + '</label>' +
-              '<div style="display:flex;align-items:center;gap:0;border:1px solid var(--hairline);border-radius:2px;overflow:hidden">' +
-                '<button type="button" id="pax-minus" aria-label="' + HN.esc(HN.t('aria.paxMinus')) + '" style="width:48px;min-height:48px;border:0;background:#fff;cursor:pointer;font-size:18px">−</button>' +
-                '<span id="pax-val" aria-live="polite" style="flex:1;text-align:center;font-family:var(--sans-ui);font-size:15px">' + state.pax + '</span>' +
-                '<button type="button" id="pax-plus" aria-label="' + HN.esc(HN.t('aria.paxPlus')) + '" style="width:48px;min-height:48px;border:0;background:#fff;cursor:pointer;font-size:18px">+</button>' +
-              '</div></div>' +
+              '<input type="date" id="bk-date" class="input" min="' + bd.min + '"' + (bd.max ? ' max="' + bd.max + '"' : '') + ' value="' + HN.esc(state.date) + '">' +
+              '<p class="admin-note" style="margin-top:6px">' + HN.esc(HN.t('detail.leadNote')) + '</p></div>' +
+            '<div class="field"><label>' + HN.esc(HN.t('detail.participants')) + '</label>' + steppers + '</div>' +
             '<div class="book-box__total"><span class="k">' + HN.esc(HN.t('detail.total')) + '</span><span class="v" id="bk-total">' + HN.yen(total) + '</span></div>' +
             '<button type="button" class="btn btn--primary btn--block" id="bk-go">' + HN.esc(HN.t('detail.bookNow')) + '</button>' +
             '<p class="err-msg" id="bk-err"></p>' +
@@ -98,17 +115,22 @@
 
   function wire() {
     var dateEl = document.getElementById('bk-date');
-    var paxVal = document.getElementById('pax-val');
     var totalEl = document.getElementById('bk-total');
     var err = document.getElementById('bk-err');
-    function updateTotal() { totalEl.textContent = HN.yen(tour.price * state.pax); }
-    if (dateEl) dateEl.addEventListener('change', function () { state.date = this.value; err.textContent = ''; });
-    var minus = document.getElementById('pax-minus'), plus = document.getElementById('pax-plus');
-    if (minus) minus.addEventListener('click', function () {
-      state.pax = Math.max(tour.capacity.min || 1, state.pax - 1); paxVal.textContent = state.pax; updateTotal();
-    });
-    if (plus) plus.addEventListener('click', function () {
-      state.pax = Math.min(tour.capacity.max || 20, state.pax + 1); paxVal.textContent = state.pax; updateTotal();
+    var cap = P.capacity(tour);
+    function updateTotal() { totalEl.textContent = HN.yen(P.quote(tour, state).total); }
+    if (dateEl) dateEl.addEventListener('change', function () { state.date = this.value; err.textContent = ''; dateEl.classList.remove('is-error'); });
+    document.querySelectorAll('[data-step-key]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var key = btn.getAttribute('data-step-key'), dir = Number(btn.getAttribute('data-step-dir'));
+        var pax = state.adults + state.children;
+        if (dir > 0 && pax >= cap.max) return;
+        if (dir < 0 && (pax <= cap.min || state[key] <= (key === 'adults' ? 1 : 0))) return;
+        state[key] += dir;
+        document.getElementById('pax-' + key).textContent = state[key];
+        err.textContent = '';
+        updateTotal();
+      });
     });
     document.querySelectorAll('.detail-gallery__thumbs button').forEach(function (btn) {
       btn.addEventListener('click', function () {
@@ -119,12 +141,14 @@
       });
     });
     function proceed() {
-      if (!state.date || state.date < minDate()) {
-        err.textContent = HN.t('form.errRequired');
+      var errs = P.validate(tour, state, todayISO());
+      if (errs.indexOf('date') >= 0) {
+        err.textContent = HN.t(state.date ? 'detail.errDate' : 'form.errRequired');
         if (dateEl) { dateEl.classList.add('is-error'); dateEl.focus(); }
         return;
       }
-      HN.saveBooking({ id: tour.id, date: state.date, pax: state.pax });
+      if (errs.length) { err.textContent = HN.t('detail.errPax'); return; }
+      HN.saveBooking({ id: tour.id, date: state.date, adults: state.adults, children: state.children });
       location.href = 'checkout.html';
     }
     var go = document.getElementById('bk-go');
@@ -141,7 +165,7 @@
     var id = HN.qp('id');
     Promise.all([HN.ready, HN.loadTours()]).then(function (res) {
       var data = res[1];
-      tour = (data.tours || []).filter(function (t) { return t.id === id; })[0] || null;
+      tour = (data.tours || []).filter(function (t) { return t.id === id && t.status !== 'draft'; })[0] || null;
       render();
       HN.onLang(render);
     });
