@@ -7,6 +7,7 @@
   'use strict';
 
   var S = window.HNSchema;
+  var P = window.HNPricing;
   var KEY = 'hn-admin-key';
   var DRAFT = 'hn-admin-draft-v2';
   var LANG_NAMES = { zh: '繁中', ja: '日本語', en: 'EN' };
@@ -193,6 +194,36 @@
     '</div>';
   }
 
+  var WD = [1, 2, 3, 4, 5, 6, 0], WD_NAME = ['日', '一', '二', '三', '四', '五', '六'];
+  function dateChips(list) {
+    var items = (cur()[list] || []).slice().sort();
+    return '<div class="date-chips">' + items.map(function (d) {
+      return '<span class="date-chip">' + esc(fmtDate(d)) + '<button type="button" data-act="date-remove" data-list="' + list + '" data-v="' + d + '" aria-label="移除 ' + d + '">✕</button></span>';
+    }).join('') + '</div>' +
+      '<div class="adm-item" style="margin-top:8px;max-width:360px"><input class="input" type="date" id="add-' + list + '" aria-label="新增日期">' +
+      '<button type="button" class="icon-btn" data-act="date-add" data-list="' + list + '">＋ 加入</button></div>';
+  }
+  function fmtDate(iso) { var p = iso.split('-'); return (p[0] !== String(new Date().getFullYear()) ? p[0] + '/' : '') + (+p[1]) + '/' + (+p[2]) + '（' + WD_NAME[P.weekday(iso)] + '）'; }
+  function scheduleEditor() {
+    var t = cur(), mode = P.schedule(t);
+    if (Array.isArray(t.dates)) mode = 'dates';
+    else if (Array.isArray(t.weekdays)) mode = 'weekly';
+    function radio(v, label) { return '<label class="check-row adm-toggle"><input type="radio" name="sched" data-sched="' + v + '"' + (mode === v ? ' checked' : '') + '><span>' + label + '</span></label>'; }
+    var configured = mode === 'dates' ? t.dates.length : mode === 'weekly' ? (t.weekdays || []).length : 0;
+    var upcoming = configured ? P.departures(t, todayISO(), 8) : [];
+    return radio('daily', '每天都出團') + radio('weekly', '每週固定星期幾出團') + radio('dates', '只在指定日期出團') +
+      (mode === 'weekly' ? '<div class="wd-picks">' + WD.map(function (d) {
+        return '<label class="chip"><input type="checkbox" data-wd="' + d + '"' + ((t.weekdays || []).indexOf(d) >= 0 ? ' checked' : '') + '><span>週' + WD_NAME[d] + '</span></label>';
+      }).join('') + '</div>' : '') +
+      (mode === 'dates' ? '<div style="margin-top:10px">' + dateChips('dates') + '</div>' : '') +
+      '<div style="margin-top:18px">' + toggle('season', !!t.season, '限定期間（例如只在冬季）') + '</div>' +
+      (t.season ? '<div class="field-row" style="margin-top:12px">' + field('開始日', '<input class="input" type="date" data-f="season.from" value="' + esc(t.season.from) + '">') + field('結束日', '<input class="input" type="date" data-f="season.to" value="' + esc(t.season.to) + '">') + '</div>' : '') +
+      (mode !== 'dates' ? '<div style="margin-top:18px"><span class="field-label">休團日（這些日子不出團）</span>' + dateChips('closed') + '</div>' : '') +
+      (mode !== 'daily' ? '<p class="admin-note" style="margin:16px 0 0">接下來可報名的日子：' +
+        (upcoming.length ? upcoming.map(fmtDate).join('、') + (upcoming.length === 8 ? '…' : '') : '<strong style="color:var(--rowan-day)">沒有（請檢查設定）</strong>') + '</p>' : '');
+  }
+  function todayISO() { var d = new Date(), p = function (n) { return ('0' + n).slice(-2); }; return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()); }
+
   function renderEditor() {
     var ed = $('editor');
     var t = cur();
@@ -226,9 +257,7 @@
         (t.child ? '<div class="field-row" style="margin-top:12px">' + field('兒童價', num('child.price', t.child.price)) + field('兒童的定義', mlInput('child.label', t.child.label, { ph: '例：兒童（國中以下）' })) + '</div>' : '') +
         '<div class="field-row" style="margin-top:16px">' + field('最少成團人數', num('capacity.min', t.capacity && t.capacity.min, 1)) + field('每團最多人數', num('capacity.max', t.capacity && t.capacity.max, 1)) + '</div>') +
 
-      sec('出團期間', '客人只能選這段期間內的日期；也一律只能預約 3 天後的日期。',
-        toggle('season', !!t.season, '限定出團期間（例如只在冬季）') +
-        (t.season ? '<div class="field-row" style="margin-top:12px">' + field('開始日', '<input class="input" type="date" data-f="season.from" value="' + esc(t.season.from) + '">') + field('結束日', '<input class="input" type="date" data-f="season.to" value="' + esc(t.season.to) + '">') + '</div>' : '')) +
+      sec('出團日', '客人只能報名這裡設定的日子；一律只能預約 3 天後的日期。', scheduleEditor()) +
 
       sec('集合與接送', '',
         field('集合・解散地點', mlInput('meeting', t.meeting, { area: true, ph: '例：旭川站前（09:30 集合・出發）。於旭川站前解散（約 16:10）。' })) +
@@ -339,7 +368,19 @@
     });
     ed.addEventListener('change', function (e) {
       var el = e.target, t = cur(); if (!t) return;
+      if (/^season\./.test(el.getAttribute('data-f') || '')) { renderEditor(); return; }
       if (el.id === 'img-input') { if (el.files.length) addPhotos(el.files); return; }
+      if (el.hasAttribute('data-sched')) {
+        var m = el.getAttribute('data-sched');
+        if (m === 'daily') { delete t.weekdays; delete t.dates; }
+        if (m === 'weekly') { delete t.dates; t.weekdays = (t.weekdays && t.weekdays.length) ? t.weekdays : [6]; }
+        if (m === 'dates') { delete t.weekdays; t.dates = t.dates || []; }
+        renderEditor(); touch(); return;
+      }
+      if (el.hasAttribute('data-wd')) {
+        t.weekdays = Array.prototype.map.call(document.querySelectorAll('[data-wd]:checked'), function (x) { return Number(x.getAttribute('data-wd')); }).sort();
+        renderEditor(); touch(); return;
+      }
       var k = el.getAttribute('data-toggle'); if (!k) return;
       if (k === 'child') { if (el.checked) t.child = { price: Math.round((t.price || 0) * 0.6), label: { zh: '兒童', ja: '子ども', en: 'Children' } }; else delete t.child; }
       if (k === 'season') {
@@ -366,6 +407,12 @@
         if (act === 'img-left' && at > 0) ps.splice(at - 1, 0, ps.splice(at, 1)[0]);
         setPhotos(t, ps);
       }
+      else if (act === 'date-add') {
+        var v = $('add-' + list).value;
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(v)) { $('add-' + list).focus(); return; }
+        if (arr.indexOf(v) < 0) arr.push(v); arr.sort();
+      }
+      else if (act === 'date-remove') { arr.splice(arr.indexOf(b.getAttribute('data-v')), 1); if (list === 'closed' && !arr.length) delete t.closed; }
       else if (act === 'preview') { preview(t); return; }
       else if (act === 'dup') {
         var copy = JSON.parse(JSON.stringify(t)), base = t.id + '-copy', id = base, n = 2;

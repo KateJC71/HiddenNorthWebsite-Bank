@@ -864,3 +864,9 @@ body.adm { background: #f6f4f1; }
 body.adm [hidden] { display: none !important; }
 .adm-sec .field-row > .field { margin-top: 0; }
 .admin-list .badge { white-space: nowrap; flex: 0 0 auto; }
+.wd-picks { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0 30px; }
+.date-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.date-chips:empty { display: none; }
+.date-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 6px 4px 12px; border: 1px solid var(--hairline); border-radius: 999px; font-family: var(--sans-ui); font-size: 13px; background: #fff; }
+.date-chip button { border: 0; background: none; cursor: pointer; font-size: 12px; color: var(--label); padding: 2px 6px; }
+.date-chip button:hover { color: var(--rowan-day); }

@@ -31,6 +31,41 @@
     return { min: min, max: isISODate(s.to) ? s.to : '' };
   }
 
+  function weekday(iso) { var p = iso.split('-'); return new Date(Date.UTC(+p[0], +p[1] - 1, +p[2])).getUTCDay(); }
+
+  // How departures are scheduled (all optional on the tour):
+  //   dates:    ['YYYY-MM-DD', …]  only these days (weekdays ignored)
+  //   weekdays: [0–6, …]           repeat weekly (0 = Sunday); absent = every day
+  //   closed:   ['YYYY-MM-DD', …]  no departure on these days
+  // season / LEAD_DAYS still bound every mode.
+  function schedule(tour) {
+    if (Array.isArray(tour.dates) && tour.dates.length) return 'dates';
+    if (Array.isArray(tour.weekdays) && tour.weekdays.length) return 'weekly';
+    return 'daily';
+  }
+  function isDeparture(tour, date, todayISO) {
+    if (!isISODate(date)) return false;
+    var bd = bounds(tour, todayISO);
+    if (date < bd.min || (bd.max && date > bd.max)) return false;
+    if (Array.isArray(tour.closed) && tour.closed.indexOf(date) >= 0) return false;
+    var mode = schedule(tour);
+    if (mode === 'dates') return tour.dates.indexOf(date) >= 0;
+    if (mode === 'weekly') return tour.weekdays.indexOf(weekday(date)) >= 0;
+    return true;
+  }
+  // Upcoming bookable dates for weekly / fixed-date tours (daily tours use a free date picker).
+  function departures(tour, todayISO, limit) {
+    limit = limit || 60;
+    var out = [], bd = bounds(tour, todayISO);
+    if (schedule(tour) === 'dates') {
+      tour.dates.slice().sort().forEach(function (d) { if (out.length < limit && isDeparture(tour, d, todayISO)) out.push(d); });
+      return out;
+    }
+    var end = bd.max || addDays(bd.min, 365);
+    for (var d = bd.min; d <= end && out.length < limit; d = addDays(d, 1)) if (isDeparture(tour, d, todayISO)) out.push(d);
+    return out;
+  }
+
   // Accepts { adults, children } or the older { pax } shape.
   function party(tour, b) {
     b = b || {};
@@ -50,13 +85,15 @@
   // Returns a list of problems: 'date' | 'pax'. Empty list = bookable.
   function validate(tour, b, todayISO) {
     var errs = [];
-    var bd = bounds(tour, todayISO);
-    var date = b && b.date;
-    if (!isISODate(date) || date < bd.min || (bd.max && date > bd.max)) errs.push('date');
+    if (!isDeparture(tour, b && b.date, todayISO)) errs.push('date');
     var p = party(tour, b), cap = capacity(tour);
     if (p.adults < 1 || p.pax < cap.min || p.pax > cap.max) errs.push('pax');
     return errs;
   }
 
-  return { LEAD_DAYS: LEAD_DAYS, addDays: addDays, capacity: capacity, bounds: bounds, party: party, quote: quote, validate: validate };
+  return {
+    LEAD_DAYS: LEAD_DAYS, addDays: addDays, weekday: weekday, capacity: capacity, bounds: bounds,
+    schedule: schedule, isDeparture: isDeparture, departures: departures,
+    party: party, quote: quote, validate: validate
+  };
 });

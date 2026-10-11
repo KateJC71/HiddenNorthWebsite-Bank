@@ -37,6 +37,13 @@
       var s = t.season;
       if (!isObj(s) || !DATE_RE.test(s.from || '') || !DATE_RE.test(s.to || '') || s.from > s.to) e.push(p + '：出團期間不正確（開始日需早於結束日）');
     }
+    if (t.weekdays != null && (!Array.isArray(t.weekdays) || !t.weekdays.length || !t.weekdays.every(function (d) { return isInt(d) && d >= 0 && d <= 6; }))) {
+      e.push(p + '：每週出團日請至少選一天');
+    }
+    ['dates', 'closed'].forEach(function (k) {
+      if (t[k] != null && (!Array.isArray(t[k]) || !t[k].every(function (d) { return DATE_RE.test(d); }))) e.push(p + '：' + (k === 'dates' ? '指定出團日' : '休團日') + '格式不正確');
+    });
+    if (Array.isArray(t.dates) && !t.dates.length) e.push(p + '：選了「指定日期」但還沒加入任何出團日');
     ['highlights', 'included', 'excluded', 'notes', 'confirmations'].forEach(function (k) {
       if (t[k] != null && (!Array.isArray(t[k]) || !t[k].every(isObj))) e.push(p + '：' + k + ' 格式錯誤');
     });
