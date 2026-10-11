@@ -17,7 +17,7 @@ Hidden North 株式会社（北海道旭川）的官方網站。多頁式、三�
 | `confirmation.html` | 預約完成 |
 | `admin.html` | **行程後台**（維護行程／價格／圖片，密碼保護） |
 
-**API**：`api/create-payment.js`（Vercel Function，Square 付款；未設定金鑰時不會被呼叫）
+**API**：`api/create-payment.js`（Square 付款）、`api/admin.js`（商品後台：讀取／發佈到 GitHub）。皆為 Vercel Functions。`tour-schema.js` 為後台與 API 共用的資料檢查規則。
 
 **共用程式**：`pricing.js`（報名規則與計價，前端與 API 共用——金額一律由伺服器依 `tours.json` 重算）、`payment-config.js`（付款模式設定）、`site.js`（三語 i18n 引擎 + 注入式頁首／頁尾 + 捲動浮現 + `window.HN` 工具）、`catalog.js`（行程卡片與列表）、`tour.js`、`custom.js`、`checkout.js`、`confirm.js`、`admin.js`。
 **內容資料**：`data/tours.json`（行程）、`data/i18n.json`（介面文字三語）。
@@ -32,13 +32,28 @@ python3 -m http.server 8130    # 然後開 http://localhost:8130
 
 ## 維護方式（給非工程人員）
 
-### A. 用後台維護行程（推薦）
-1. 開 `網址/admin.html`，輸入密碼（預設 `hidden-north`，可在 `admin.js` 最上方 `PASS` 修改）。
-2. 新增／編輯／刪除行程，切換 繁中／日本語／EN 分別填寫。
-3. 按 **「匯出 tours.json」** 下載檔案 → 覆蓋專案中的 `data/tours.json` → push 到 GitHub（Vercel 會自動重新部署）。
-4. 進階欄位（相簿、亮點、逐時行程、費用含／不含）在後台下方的 JSON 區塊編輯。
+### A. 用商品後台（推薦，產品經理用這個）
 
-> 編輯中的內容會暫存在該瀏覽器；按「重新載入」會捨棄草稿、重抓線上檔案。
+網址：`https://hidden-north.jp/admin.html`
+
+1. 輸入管理密碼登入。
+2. 按「＋ 新增商品」（或選既有商品、或「複製成新商品」），照表單填寫：名稱、介紹、價格（可另設兒童價）、人數、出團期間、集合地點、飯店接送、照片、亮點、行程、費用含／不含、參加須知、結帳確認事項。
+3. 文字欄位上方可切換 **繁中／日本語／EN**；翻成日文、英文時，欄位會淡淡顯示中文原文供參考，語言旁的紅字是尚未翻譯的欄位數。
+4. 按「預覽商品頁」確認畫面。
+5. 狀態選「上架中」，按右上角 **「發佈到網站」**，約 1 分鐘後網站更新。想暫時下架就改成「草稿」再發佈。
+
+> 發佈時系統會自動檢查（必填欄位、價格、照片…），有問題會列出來，不會把壞掉的資料放上網站。若兩個人同時編輯，後發佈的人會收到提示，需重新載入後再改。
+
+**首次設定（工程人員，一次即可）**：Vercel → Project → Settings → Environment Variables 新增
+
+| 變數 | 內容 |
+|---|---|
+| `ADMIN_PASSWORD` | 後台密碼（至少 8 字，只給內部人員） |
+| `GITHUB_TOKEN` | GitHub fine-grained token：只授權此 repo，權限 **Contents: Read and write** |
+| `GITHUB_REPO` | `KateJC71/HiddenNorthWebsite-Bank` |
+| `GITHUB_BRANCH` | 網站部署的分支（預設 `main`） |
+
+原理：後台把 `data/tours.json` 與新照片以一個 commit 寫進 GitHub → Vercel 自動重新部署。所有修改都有 git 歷史可查、可還原。未設定上述變數時，後台會進入「離線模式」，只能編輯後匯出 `tours.json`。
 
 ### B. 直接改檔案
 - 行程內容：`data/tours.json`
@@ -56,7 +71,7 @@ python3 -m http.server 8130    # 然後開 http://localhost:8130
 2. **付款金流（Square）**：目前為**可測試的 demo**，不會實際扣款。串接步驟見下方「串接 Square」。
 3. **取得登録號後**：於 `about.html` 事業內容與会社概要補上登録番號，並移除／調整 `notice.registration`、`notice.demo`、`notice.sample`。
 4. **表單送信**：客製化洽詢目前以 mailto 送出；結帳在串接 Square 後會記錄於 Square 付款，但**確認信**尚未自動寄送，上線前請接上 email 服務。
-5. **後台安全**：`admin.html` 的密碼為前端簡易保護，非真正的安全機制。正式上線建議改用 Vercel 的 Password Protection 或驗證代理保護此頁。
+5. **後台安全**：密碼由伺服器（`api/admin.js`）驗證，存在 Vercel 環境變數，不在程式碼裡。請使用夠長的密碼，人員異動時更換 `ADMIN_PASSWORD`。
 
 ## 行程資料欄位（`data/tours.json`）
 

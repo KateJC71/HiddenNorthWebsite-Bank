@@ -3,6 +3,7 @@
   'use strict';
   var P = window.HNPricing;
   var tour = null, state = { date: '', adults: 0, children: 0, img: '' };
+  var isPreview = false;   // opened from the back-office "預覽商品頁" button
 
   function todayISO() {
     var d = new Date(), p = function (n) { return ('0' + n).slice(-2); };
@@ -141,6 +142,7 @@
       });
     });
     function proceed() {
+      if (isPreview) { err.textContent = '預覽模式：無法報名。發佈後即可在正式頁面報名。'; return; }
       var errs = P.validate(tour, state, todayISO());
       if (errs.indexOf('date') >= 0) {
         err.textContent = HN.t(state.date ? 'detail.errDate' : 'form.errRequired');
@@ -166,6 +168,16 @@
     Promise.all([HN.ready, HN.loadTours()]).then(function (res) {
       var data = res[1];
       tour = (data.tours || []).filter(function (t) { return t.id === id && t.status !== 'draft'; })[0] || null;
+      if (HN.qp('preview') === '1') {
+        var pv = null;
+        try { pv = JSON.parse(localStorage.getItem('hn-admin-preview') || 'null'); } catch (e) {}
+        if (pv && pv.id === id) {
+          tour = pv; isPreview = true;
+          var bar = document.createElement('div'); bar.className = 'preview-bar';
+          bar.textContent = '預覽模式 — 這是後台尚未發佈的內容，客人看不到';
+          document.body.appendChild(bar);
+        }
+      }
       render();
       HN.onLang(render);
     });
